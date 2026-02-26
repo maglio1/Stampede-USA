@@ -21,6 +21,7 @@
     APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec',
     ACUITY_OWNER_ID: '37918047',
     EMAIL_PARTS: ['charge', 'stampedeusa.com'],  // obfuscated — joined at runtime
+    EMAIL_DISPLAY: 'Charge@StampedeUSA.com',     // branded display casing
     PHONE: 'tel:+17034362716',
     NAV_HEIGHT: 80,
     STICKY_BAR_THRESHOLD: 400
@@ -34,9 +35,9 @@
   function initEmailObfuscation() {
     var email = CONFIG.EMAIL_PARTS[0] + '@' + CONFIG.EMAIL_PARTS[1];
 
-    // Footer display span
+    // Footer display span — use branded casing if defined
     var displayEl = document.getElementById('stmp-email-display');
-    if (displayEl) displayEl.textContent = email;
+    if (displayEl) displayEl.textContent = CONFIG.EMAIL_DISPLAY || email;
 
     // Footer mailto link
     var emailLink = document.getElementById('stmp-footer-email-link');

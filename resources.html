@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Marketing Resources | Stampede USA Northern Virginia</title>
-  <meta name="description" content="12 free marketing tools and checklists for Northern Virginia small businesses. Download instantly. No fluff, just what works.">
+  <meta name="description" content="12 free marketing downloads built from real client work in Northern Virginia. No theory, no filler. Grab what you need and put it to work.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.stampedeusa.com/resources.html">
   <meta property="og:type" content="website">
@@ -21,8 +21,10 @@
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="pages.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9PWD1RL4FX"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9PWD1RL4FX');</script>
 </head>
@@ -34,7 +36,7 @@
 <nav id="stmp-nav" aria-label="Main navigation">
   <div class="stmp-nav-container">
     <a href="index.html" class="stmp-nav-logo" aria-label="Stampede USA — Home">
-      <img src="assets/images/bull.webp" alt="Stampede USA" width="44" height="44" loading="eager" style="height:44px;width:auto;">
+      <img src="assets/images/favicon.png" alt="Stampede USA" width="44" height="44" loading="eager" style="height:44px;width:auto;">
       <span class="stmp-nav-logo-text">STAMPEDE <span>USA</span></span>
     </a>
     <ul class="stmp-nav-links" role="list">
@@ -74,45 +76,27 @@
     <div class="page-hero-orb page-hero-orb-1" aria-hidden="true"></div>
     <div class="page-hero-orb page-hero-orb-2" aria-hidden="true"></div>
     <div class="stmp-container">
-      <div class="page-hero-kicker">Free Tools &bull; No Fluff &bull; Instant Download</div>
+      <div class="page-hero-kicker">Free Tools &bull; No Theory &bull; Just Use It</div>
       <h1 class="page-hero-title">Marketing Resources That<br><span class="page-hero-accent">Actually Work</span></h1>
-      <p class="page-hero-sub">12 battle-tested checklists and worksheets built for Northern Virginia small business owners. Enter your email once, download everything free.</p>
+      <p class="page-hero-sub">These came out of real client work. Not a content factory. Twelve free downloads for Northern Virginia business owners who are done guessing. Drop your email the first time and everything opens up.</p>
     </div>
   </section>
 
-  <!-- EMAIL GATE -->
-  <section class="resources-gate-section">
+  <!-- RESOURCES GRID SECTION -->
+  <section class="resources-section">
     <div class="stmp-container">
-      <div class="resources-gate-card" id="resourcesGate">
-        <div class="resources-gate-icon" aria-hidden="true">📥</div>
-        <h2>Get Instant Access to All 12 Resources</h2>
-        <p>Drop your email and we'll unlock all downloads. We send useful marketing content — no spam, no pitch deck, unsubscribe anytime.</p>
-        <form class="resources-gate-form" id="resourcesGateForm" novalidate>
-          <div class="resources-gate-inputs">
-            <div>
-              <label for="gateFirstName" class="sr-only">First Name</label>
-              <input type="text" id="gateFirstName" name="firstName" placeholder="First Name" required autocomplete="given-name">
-            </div>
-            <div>
-              <label for="gateEmail" class="sr-only">Email Address</label>
-              <input type="email" id="gateEmail" name="email" placeholder="Your email address" required autocomplete="email">
-            </div>
-            <button type="submit" class="stmp-btn stmp-btn-primary">Unlock All Resources &rarr;</button>
-          </div>
-          <p class="resources-gate-privacy">We respect your privacy. <a href="privacy-policy.html">Privacy Policy</a></p>
-        </form>
+
+      <!-- Access status banner -->
+      <div class="resources-access-banner" id="resourcesAccessBanner" role="note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Click anything to download. We ask for your email the first time, then you're good for all of them.
+      </div>
+      <div class="resources-unlocked-banner" id="resourcesUnlockedBanner" hidden role="note">
+        <div class="resources-unlocked-check" aria-hidden="true">✓</div>
+        <span>You're in. Grab whatever you need.</span>
       </div>
 
-      <!-- UNLOCKED STATE (hidden until form submitted) -->
-      <div class="resources-unlocked" id="resourcesUnlocked" hidden>
-        <div class="resources-unlocked-header">
-          <div class="resources-unlocked-check" aria-hidden="true">✓</div>
-          <div>
-            <h2>You're In. Download Anything Below.</h2>
-            <p>All 12 resources are now unlocked. Bookmark this page for future reference.</p>
-          </div>
-        </div>
-
+      <div class="resources-unlocked" id="resourcesUnlocked">
         <!-- RESOURCES GRID -->
         <div class="resources-grid">
 
@@ -120,7 +104,7 @@
             <div class="resource-card-number" aria-hidden="true">01</div>
             <div class="resource-card-body">
               <h3>The 7-Day Lead Reset</h3>
-              <p>A simple 7-day plan to stop leaks and create momentum — without spending more on ads.</p>
+              <p>Seven days, seven fixes. Most businesses find at least two or three spots where leads are slipping away once they actually go through this. No extra ad spend needed.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Lead Generation</span>
               </div>
@@ -135,7 +119,7 @@
             <div class="resource-card-number" aria-hidden="true">02</div>
             <div class="resource-card-body">
               <h3>Stop the Leak: Homepage Checklist</h3>
-              <p>A quick cleanup that makes your site easier to trust and act on — one afternoon of work.</p>
+              <p>Your homepage is probably losing people you already paid to get there. This checklist tells you exactly what to fix. Afternoon of work. Real results.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Website</span>
               </div>
@@ -150,7 +134,7 @@
             <div class="resource-card-number" aria-hidden="true">03</div>
             <div class="resource-card-body">
               <h3>Offer Builder Worksheet</h3>
-              <p>Turn what you do into an offer customers can say "yes" to quickly — without sounding like everyone else.</p>
+              <p>Most businesses describe what they do. This helps you build something people actually want to say yes to. Big difference between those two things.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Strategy</span>
               </div>
@@ -165,7 +149,7 @@
             <div class="resource-card-number" aria-hidden="true">04</div>
             <div class="resource-card-body">
               <h3>Google Business Profile Tune-Up</h3>
-              <p>Be the obvious choice when people search nearby. Fast checklist to show up better and look more credible.</p>
+              <p>Half the businesses in your area have incomplete or outdated profiles. This checklist fixes yours so you stop losing ground to competitors who aren't even better than you.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Local SEO</span>
               </div>
@@ -180,7 +164,7 @@
             <div class="resource-card-number" aria-hidden="true">05</div>
             <div class="resource-card-body">
               <h3>The Review Engine Starter</h3>
-              <p>A simple system to get more reviews without begging — turn happy customers into public proof.</p>
+              <p>Asking for reviews feels awkward because most people go about it wrong. This is a clean, repeatable way to get them without feeling like you're chasing people down.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Reputation</span>
               </div>
@@ -195,7 +179,7 @@
             <div class="resource-card-number" aria-hidden="true">06</div>
             <div class="resource-card-body">
               <h3>Landing Page One-Page Blueprint</h3>
-              <p>One page. One job. One clear action. The structure that turns ad clicks into booked appointments.</p>
+              <p>Landing pages fail because they try to do too much. This is the layout we actually use. Keeps things focused, keeps people moving.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Conversion</span>
               </div>
@@ -210,7 +194,7 @@
             <div class="resource-card-number" aria-hidden="true">07</div>
             <div class="resource-card-body">
               <h3>Paid Ads Readiness Checklist</h3>
-              <p>A fast test to see if ads will help or hurt before you spend a dollar on traffic.</p>
+              <p>Running ads before your business is ready for them is one of the fastest ways to burn money. Go through this before you touch Google Ads or Meta.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Paid Ads</span>
               </div>
@@ -225,7 +209,7 @@
             <div class="resource-card-number" aria-hidden="true">08</div>
             <div class="resource-card-body">
               <h3>The Simple Follow-Up Speed Sheet</h3>
-              <p>A basic follow-up routine that wins more deals — turn interested into booked before competitors even respond.</p>
+              <p>Most deals that fall through aren't lost on price. They're lost because nobody followed up fast enough. This is the routine we give clients. It works.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Sales</span>
               </div>
@@ -240,7 +224,7 @@
             <div class="resource-card-number" aria-hidden="true">09</div>
             <div class="resource-card-body">
               <h3>Weekly Marketing Scorecard</h3>
-              <p>The few numbers that should drive weekly decisions — know what's working without drowning in reports.</p>
+              <p>You don't need a dashboard. You need about six numbers checked once a week. This is that scorecard, nothing more.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Analytics</span>
               </div>
@@ -255,7 +239,7 @@
             <div class="resource-card-number" aria-hidden="true">10</div>
             <div class="resource-card-body">
               <h3>Content That Sells: 30-Day Plan</h3>
-              <p>Post with purpose so every post has a job — a simple content rhythm that builds trust and demand.</p>
+              <p>Random posting doesn't build anything. This is 30 days of content with an actual purpose behind each type of post. Use it, adjust it, make it yours.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Content</span>
               </div>
@@ -270,7 +254,7 @@
             <div class="resource-card-number" aria-hidden="true">11</div>
             <div class="resource-card-body">
               <h3>Brand Message Clarity Test</h3>
-              <p>Stop getting "So what do you actually do?" — make your business easy to understand in 5 seconds.</p>
+              <p>If people still ask "so what do you actually do?" after talking to you, your message is broken. This test shows you where and gives you a path to fix it.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Branding</span>
               </div>
@@ -285,7 +269,7 @@
             <div class="resource-card-number" aria-hidden="true">12</div>
             <div class="resource-card-body">
               <h3>Where's the Money Going? Ad Spend Check</h3>
-              <p>A basic sanity check before you scale spend — know what you paid, what you got, and what it returned.</p>
+              <p>Before you put more money into ads, run through this. It's basic math but most people skip it. Tells you whether scaling up makes sense or if you're just accelerating a loss.</p>
               <div class="resource-card-meta">
                 <span class="resource-tag">Paid Ads</span>
               </div>
@@ -300,8 +284,8 @@
 
         <!-- CTA AFTER RESOURCES -->
         <div class="resources-bottom-cta">
-          <h2>Want us to do this with you?</h2>
-          <p>These tools are the starting point. When you want real execution behind them, that's what we do.</p>
+          <h2>Ready to stop doing this yourself?</h2>
+          <p>The tools show you where the problems are. We fix them. That's the whole business.</p>
           <div class="resources-bottom-cta-btns">
             <a href="#" class="stmp-btn stmp-btn-primary audit-trigger">Get a Free Website Audit</a>
             <a href="index.html#stmp-strategy" class="stmp-btn stmp-btn-secondary">Book a Strategy Call</a>
@@ -312,6 +296,39 @@
     </div>
   </section>
 
+  <!-- DOWNLOAD GATE MODAL -->
+  <div id="dlgate-modal" class="dlgate-modal" role="dialog" aria-modal="true" aria-labelledby="dlgate-title" aria-hidden="true">
+    <div class="dlgate-backdrop" id="dlgateBackdrop"></div>
+    <div class="dlgate-box">
+      <button class="dlgate-close" id="dlgateClose" aria-label="Close download form">&times;</button>
+      <div id="dlgate-form-view">
+        <div class="dlgate-icon" aria-hidden="true">📥</div>
+        <h2 id="dlgate-title">One Email. All 12 Downloads.</h2>
+        <p>Drop your name and email. We send useful stuff occasionally. You can bail anytime, no hard feelings.</p>
+        <form id="dlGateForm" class="dlgate-form" novalidate>
+          <div class="dlgate-inputs">
+            <div>
+              <label for="dlgateFirstName" class="sr-only">First Name</label>
+              <input type="text" id="dlgateFirstName" name="firstName" placeholder="First Name" required autocomplete="given-name">
+            </div>
+            <div>
+              <label for="dlgateEmail" class="sr-only">Email Address</label>
+              <input type="email" id="dlgateEmail" name="email" placeholder="Your email address" required autocomplete="email">
+            </div>
+            <button type="submit" class="stmp-btn stmp-btn-primary">Unlock &amp; Download &rarr;</button>
+          </div>
+          <p class="dlgate-privacy">No spam. We hate it too. <a href="privacy-policy.html">Privacy Policy</a></p>
+        </form>
+      </div>
+      <div id="dlgate-success-view" hidden>
+        <div class="dlgate-success-icon" aria-hidden="true">✓</div>
+        <h3>You're in. Grab whatever you need.</h3>
+        <p>All 12 are unlocked. Come back anytime.</p>
+        <button class="stmp-btn stmp-btn-primary" id="dlgateCloseSuccess">Back to Resources</button>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <!-- FOOTER -->
@@ -320,7 +337,7 @@
     <div class="stmp-footer-top">
       <div class="stmp-footer-brand">
         <div class="stmp-footer-logo-lockup">
-          <img src="assets/images/bull.webp" alt="Stampede USA" width="52" height="52" loading="lazy" style="height:52px;width:auto;">
+          <img src="assets/images/favicon.png" alt="Stampede USA" width="52" height="52" loading="lazy" style="height:52px;width:auto;">
           <span class="stmp-footer-logo-text">STAMPEDE <span>USA</span></span>
         </div>
         <img class="stmp-footer-tagline-img" src="assets/images/tagline.png" alt="Built to Charge Ahead" width="240" height="60" loading="lazy">
@@ -450,35 +467,82 @@
   </div>
 </div>
 
-<script src="main.js"></script>
+<script src="js/main.js"></script>
 <script>
-// Resources gate logic
+// Resources download gate — grid always visible; email required on first download
 (function() {
   var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec';
   var UNLOCK_KEY = 'stmp_resources_unlocked';
+  var pendingHref = null;
 
-  var gate = document.getElementById('resourcesGate');
-  var unlocked = document.getElementById('resourcesUnlocked');
-  var form = document.getElementById('resourcesGateForm');
+  var modal        = document.getElementById('dlgate-modal');
+  var backdrop     = document.getElementById('dlgateBackdrop');
+  var closeBtn     = document.getElementById('dlgateClose');
+  var closeSuccess = document.getElementById('dlgateCloseSuccess');
+  var form         = document.getElementById('dlGateForm');
+  var formView     = document.getElementById('dlgate-form-view');
+  var successView  = document.getElementById('dlgate-success-view');
+  var accessBanner   = document.getElementById('resourcesAccessBanner');
+  var unlockedBanner = document.getElementById('resourcesUnlockedBanner');
 
-  // Already unlocked from previous visit
-  if (sessionStorage.getItem(UNLOCK_KEY)) {
-    gate.hidden = true;
-    unlocked.hidden = false;
-    return;
+  function unlockUI() {
+    if (accessBanner)   accessBanner.hidden   = true;
+    if (unlockedBanner) unlockedBanner.hidden = false;
+    document.querySelectorAll('.resource-download-btn').forEach(function(btn) {
+      btn.classList.add('is-unlocked');
+    });
+  }
+
+  function openModal() {
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() {
+      var first = document.getElementById('dlgateFirstName');
+      if (first) first.focus();
+    }, 80);
+  }
+
+  function closeModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    pendingHref = null;
+  }
+
+  // If already unlocked from a prior visit this session
+  if (sessionStorage.getItem(UNLOCK_KEY)) { unlockUI(); }
+
+  // Intercept download button clicks
+  document.querySelectorAll('.resource-download-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      if (sessionStorage.getItem(UNLOCK_KEY)) return; // already unlocked — let native download happen
+      e.preventDefault();
+      pendingHref = btn.getAttribute('href');
+      openModal();
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+  if (closeSuccess) {
+    closeSuccess.addEventListener('click', closeModal);
   }
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    var firstName = document.getElementById('gateFirstName').value.trim();
-    var email = document.getElementById('gateEmail').value.trim();
-    var btn = form.querySelector('button[type="submit"]');
+    var firstName = document.getElementById('dlgateFirstName').value.trim();
+    var email     = document.getElementById('dlgateEmail').value.trim();
+    var btn       = form.querySelector('button[type="submit"]');
 
     if (!firstName || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      var bad = !firstName ? document.getElementById('gateFirstName') : document.getElementById('gateEmail');
+      var bad = !firstName ? document.getElementById('dlgateFirstName') : document.getElementById('dlgateEmail');
       bad.style.borderColor = '#EF4444';
       bad.focus();
-      bad.addEventListener('input', function(){ bad.style.borderColor = ''; }, { once: true });
+      bad.addEventListener('input', function() { bad.style.borderColor = ''; }, { once: true });
       return;
     }
 
@@ -500,9 +564,19 @@
 
     setTimeout(function() {
       sessionStorage.setItem(UNLOCK_KEY, '1');
-      gate.hidden = true;
-      unlocked.hidden = false;
-      unlocked.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      unlockUI();
+      formView.hidden  = true;
+      successView.hidden = false;
+      // Trigger the download the user originally clicked
+      if (pendingHref) {
+        var link = document.createElement('a');
+        link.href = pendingHref;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        pendingHref = null;
+      }
     }, 600);
   });
 })();

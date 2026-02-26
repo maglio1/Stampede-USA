@@ -1,3 +1,10 @@
 node_modules/
+.env
+.env.*
 .DS_Store
+Thumbs.db
 *.log
+*.tmp
+dist/
+build/
+.cache/

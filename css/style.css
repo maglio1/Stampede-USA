@@ -112,8 +112,8 @@ body{font-family:var(--font-body);background:var(--black);color:var(--white);lin
 .stmp-hero-orb-2{width:300px;height:300px;background:var(--purple);bottom:-60px;right:-60px;animation-delay:-5s}
 .stmp-hero-orb-3{width:200px;height:200px;background:var(--cyan);top:35%;right:12%;opacity:0.12;animation-delay:-10s}
 @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.05)}66%{transform:translate(-20px,20px) scale(0.95)}}
-.stmp-hero-container{max-width:var(--container-width);margin:0 auto;padding:0 var(--container-padding);display:grid;grid-template-columns:1.15fr 0.85fr;gap:30px;align-items:center;position:relative;z-index:1}
-.stmp-hero-content{max-width:620px}
+.stmp-hero-container{max-width:var(--container-width);margin:0 auto;padding:0 var(--container-padding);display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px;align-items:center;position:relative;z-index:1}
+.stmp-hero-content{max-width:none}
 .stmp-hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;opacity:0;transform:translateY(20px);animation:stmpFadeUp 0.8s var(--ease-out-expo) 0.3s forwards}
 .stmp-hero-kicker::before,.stmp-hero-kicker::after{content:'';width:35px;height:2px;background:var(--cyan)}
 .stmp-hero-headline{font-family:var(--font-hero);font-size:clamp(2.8rem,6.5vw,5.5rem);line-height:0.95;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:18px;color:var(--white);text-shadow:0 2px 30px rgba(0,0,0,0.5);opacity:0;transform:translateY(30px);animation:stmpFadeUp 0.8s var(--ease-out-expo) 0.5s forwards}
