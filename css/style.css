@@ -34,9 +34,9 @@
   --gray-800:#1F1F23;
   --gray-700:#27272A;
   --gray-600:#3F3F46;
-  --gray-500:#A1A1AA;  /* was #52525B. Now 7.4:1 on black (AAA). */
-  --gray-400:#D4D4D8;  /* was #71717A. Now ~12:1 on black (AAA+). */
-  --gray-300:#E4E4E7;  /* was #A1A1AA. Now ~14:1 on black (AAA+). */
+  --gray-500:#D4D4D8;  /* near white. ~12:1 on black. */
+  --gray-400:#E4E4E7;  /* brighter. ~14:1 on black. */
+  --gray-300:#F4F4F5;  /* brightest supporting text. ~16:1 on black. */
   --white:#FAFAFA;
   --gold:#F59E0B;
   --amber-glow:rgba(245,158,11,0.45);
@@ -47,7 +47,7 @@
   --font-body:'Source Sans 3',sans-serif;
   --section-padding:clamp(50px,8vw,80px);
   --container-width:1280px;
-  --container-padding:clamp(20px,5vw,60px);
+  --container-padding:clamp(16px,3vw,32px);  /* was clamp(20px,5vw,60px) — tighter page edges */
   --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
   --duration-fast:0.2s;
   --duration-normal:0.4s
@@ -161,7 +161,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--white);lin
 .stmp-section-sub{font-size:1.1rem;color:var(--gray-300);line-height:1.7}
 
 /* ─── MARQUEE ────────────────────────────────────────────── */
-#stmp-marquee{background:var(--charcoal);border-top:1px solid var(--gray-800);border-bottom:1px solid var(--gray-800);padding:22px 0;overflow:hidden}
+#stmp-marquee{background:var(--charcoal);border-top:1px solid var(--gray-800);border-bottom:1px solid var(--gray-800);padding:22px 0;overflow:hidden;max-width:var(--container-width);margin:0 auto}
 .stmp-marquee-track{display:flex;animation:stmpMarquee 40s linear infinite}
 .stmp-marquee-content{display:flex;gap:50px;padding:0 25px;flex-shrink:0}
 .stmp-marquee-item{display:flex;align-items:center;gap:12px;white-space:nowrap}
@@ -306,12 +306,12 @@ body{font-family:var(--font-body);background:var(--black);color:var(--white);lin
 .stmp-footer-legal a:hover{color:var(--cyan)}
 
 /* ─── STICKY BAR ─────────────────────────────────────────── */
-#stmp-sticky-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);z-index:999;display:flex;align-items:center;gap:6px;padding:8px 12px;background:rgba(18,18,20,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--gray-700);border-radius:100px;box-shadow:0 0 30px var(--cyan-glow),0 20px 60px rgba(0,0,0,0.5);opacity:0;visibility:hidden;transition:all var(--duration-normal)}
+#stmp-sticky-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);z-index:999;display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(9,9,11,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--gold);border-radius:100px;box-shadow:0 0 40px var(--amber-glow-strong),0 20px 60px rgba(0,0,0,0.6);opacity:0;visibility:hidden;transition:all var(--duration-normal)}
 #stmp-sticky-bar.visible{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
-#stmp-sticky-bar a{font-family:var(--font-display);font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--gray-400);padding:10px 16px;border-radius:50px;transition:all var(--duration-fast);white-space:nowrap}
-#stmp-sticky-bar a:hover{color:var(--white);background:rgba(0,212,255,0.15)}
-#stmp-sticky-bar a.stmp-sticky-cta{background:var(--purple);color:var(--white);padding:10px 18px}
-#stmp-sticky-bar a.stmp-sticky-cta:hover{background:var(--gold);color:var(--black)}
+#stmp-sticky-bar a{font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--white);padding:10px 16px;border-radius:50px;transition:all var(--duration-fast);white-space:nowrap}
+#stmp-sticky-bar a:hover{color:var(--gold);background:rgba(245,158,11,0.12)}
+#stmp-sticky-bar a.stmp-sticky-cta{background:var(--gold);color:var(--black);padding:12px 22px;font-weight:700;box-shadow:0 0 20px var(--amber-glow)}
+#stmp-sticky-bar a.stmp-sticky-cta:hover{background:var(--white);color:var(--black);box-shadow:0 0 30px var(--amber-glow-strong)}
 
 /* ─── MODAL ──────────────────────────────────────────────── */
 #stmp-audit-modal{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:all var(--duration-normal)}
