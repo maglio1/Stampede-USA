@@ -4,10 +4,10 @@ echo  Stampede USA - Push to GitHub
 echo ============================================
 echo.
 
-cd /d "C:\Users\matta\AI_Stampede\stampede-usa-website"
+cd /d "C:\Users\matta\AI_Access\AI_Stampede\stampede-usa-website"
 
 echo Setting safe directory...
-git config --global --add safe.directory C:/Users/matta/AI_Stampede/stampede-usa-website
+git config --global --add safe.directory C:/Users/matta/AI_Access/AI_Stampede/stampede-usa-website
 
 echo.
 echo Current status:
@@ -25,7 +25,7 @@ if %ERRORLEVEL% == 0 (
     echo GITHUB DESKTOP STEPS:
     echo 1. Open GitHub Desktop
     echo 2. File menu - Add Local Repository
-    echo 3. Paste this path: C:\Users\matta\AI_Stampede\stampede-usa-website
+    echo 3. Paste this path: C:\Users\matta\AI_Access\AI_Stampede\stampede-usa-website
     echo 4. Click "Add Repository"
     echo 5. Click "Push origin" button
 )

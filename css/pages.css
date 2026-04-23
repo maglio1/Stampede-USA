@@ -592,3 +592,114 @@
   .resources-bottom-cta-btns .stmp-btn { width: 100%; justify-content: center; }
   .legal-hero { padding: 120px 0 40px; }
 }
+
+/* ── WORK PAGE ── */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.work-card {
+  background: var(--charcoal);
+  border: 1px solid var(--gray-700);
+  padding: 32px 28px;
+  position: relative;
+  box-shadow: 0 0 20px var(--amber-glow);
+  transition: box-shadow var(--duration-normal), transform var(--duration-normal);
+}
+.work-card:hover {
+  box-shadow: 0 0 40px var(--amber-glow-strong);
+  transform: translateY(-4px);
+}
+.work-card-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 4px 10px;
+  border: 1px solid var(--gray-700);
+  margin-bottom: 18px;
+}
+.work-card-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+.work-card-body {
+  color: var(--gray-300);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.work-card-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--gray-700);
+  border-bottom: 1px solid var(--gray-700);
+  margin-bottom: 14px;
+}
+.work-card-metric .value {
+  font-family: var(--font-hero);
+  font-size: 2.2rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.work-card-metric .label {
+  font-size: 0.78rem;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  line-height: 1.3;
+}
+.work-card-note {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  font-style: italic;
+}
+
+.work-own-metrics { background: transparent; }
+.work-own-panel {
+  max-width: 880px;
+  margin: 24px auto 0;
+  padding: 32px;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-700);
+  text-align: center;
+}
+.work-own-body {
+  color: var(--gray-300);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.work-honest-box {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--gray-900);
+  border: 1px solid var(--gray-700);
+  text-align: center;
+  box-shadow: 0 0 30px var(--amber-glow);
+}
+.work-honest-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.work-honest-body {
+  color: var(--gray-300);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-bottom: 26px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}

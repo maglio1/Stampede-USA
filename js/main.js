@@ -19,10 +19,10 @@
   ══════════════════════════════════════════════════════════ */
   var CONFIG = {
     APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec',
-    ACUITY_OWNER_ID: '37918047',
     EMAIL_PARTS: ['charge', 'stampedeusa.com'],  // obfuscated — joined at runtime
     EMAIL_DISPLAY: 'Charge@StampedeUSA.com',     // branded display casing
     PHONE: 'tel:+17034362716',
+    SMS: 'sms:+17033014733',                     // text-capable burner line
     NAV_HEIGHT: 80,
     STICKY_BAR_THRESHOLD: 400
   };
@@ -150,15 +150,15 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     LAZY IFRAMES — AUDIT FIX
-     Acuity scheduler and Google Maps load only when scrolled
-     into view. Eliminates eager-loading LCP drag for users
-     who never reach those sections (~60% of visitors).
+     LAZY IFRAMES
+     Google Maps loads only when scrolled into view.
+     (Acuity iframe removed in favor of native strategy-call form.)
   ══════════════════════════════════════════════════════════ */
   function initLazyIframes() {
+    var map = document.getElementById('mapIframe');
+    if (!map) return;
+
     if (!('IntersectionObserver' in window)) {
-      // Fallback: load immediately on old browsers
-      loadIframe('acuityIframe', 'acuityPlaceholder');
       loadIframe('mapIframe', 'mapPlaceholder');
       return;
     }
@@ -166,43 +166,25 @@
     var iframeObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          var iframe = entry.target;
-          var placeholderId = iframe.id === 'acuityIframe' ? 'acuityPlaceholder' : 'mapPlaceholder';
-          loadIframe(iframe.id, placeholderId);
-          iframeObserver.unobserve(iframe);
+          loadIframe(entry.target.id, 'mapPlaceholder');
+          iframeObserver.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '200px' }); // Start loading 200px before visible
+    }, { rootMargin: '200px' });
 
-    var acuity = document.getElementById('acuityIframe');
-    var map = document.getElementById('mapIframe');
-    if (acuity) iframeObserver.observe(acuity);
-    if (map) iframeObserver.observe(map);
+    iframeObserver.observe(map);
   }
 
   function loadIframe(iframeId, placeholderId) {
     var iframe = document.getElementById(iframeId);
     var placeholder = document.getElementById(placeholderId);
-
     if (!iframe) return;
-
     var src = iframe.getAttribute('data-src');
     if (!src) return;
-
     iframe.setAttribute('src', src);
     iframe.style.display = 'block';
-
-    if (placeholder) {
-      placeholder.style.display = 'none';
-    }
-
-    // For Acuity specifically, set proper height after load
-    if (iframeId === 'acuityIframe') {
-      iframe.style.minHeight = '700px';
-    }
-    if (iframeId === 'mapIframe') {
-      iframe.style.height = '300px';
-    }
+    if (placeholder) placeholder.style.display = 'none';
+    if (iframeId === 'mapIframe') iframe.style.height = '300px';
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -346,6 +328,15 @@
       auditForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        // Honeypot: if the hidden field is populated, it's a bot.
+        // Show fake success, don't send, don't tell.
+        var hp = auditForm.querySelector('input[name="website_confirm"]');
+        if (hp && hp.value) {
+          if (formView) formView.hidden = true;
+          if (successView) successView.hidden = false;
+          return;
+        }
+
         var firstNameEl = auditForm.querySelector('#auditFirstName');
         var emailEl = auditForm.querySelector('#auditEmail');
         var websiteEl = auditForm.querySelector('#auditWebsite');
@@ -418,6 +409,18 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      // Honeypot: populated hidden field = bot. Fake success, silent drop.
+      var hp = this.querySelector('input[name="website_confirm"]');
+      if (hp && hp.value) {
+        var btnEl = this.querySelector('button');
+        if (btnEl) {
+          btnEl.textContent = 'Done!';
+          btnEl.disabled = true;
+        }
+        return;
+      }
+
       var emailInput = this.querySelector('input[name="email"]');
       var btn = this.querySelector('button');
       var email = emailInput.value.trim();
@@ -457,6 +460,142 @@
   }
 
   /* ══════════════════════════════════════════════════════════
+     COOKIE CONSENT — Consent Mode v2 banner
+     Default state is 'denied' (set inline in each page's <head>).
+     Accept upgrades storage consents + sets localStorage flag.
+     Decline just records the choice. Banner never reappears either way.
+  ══════════════════════════════════════════════════════════ */
+  function initConsentBanner() {
+    var stored;
+    try { stored = localStorage.getItem('stmp_consent'); } catch(e) { stored = null; }
+    if (stored === 'granted' || stored === 'denied') return;
+
+    var banner = document.createElement('div');
+    banner.className = 'stmp-consent-banner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Cookie preferences');
+    banner.innerHTML =
+      '<div class="stmp-consent-text">' +
+        'We use cookies for basic analytics so we can see what works and what doesn\'t. ' +
+        'You can turn that off and still use the site just fine. ' +
+        '<a href="privacy-policy.html">Privacy Policy</a>.' +
+      '</div>' +
+      '<div class="stmp-consent-actions">' +
+        '<button type="button" class="stmp-consent-btn" data-consent="denied">Decline</button>' +
+        '<button type="button" class="stmp-consent-btn stmp-consent-btn--accept" data-consent="granted">Accept</button>' +
+      '</div>';
+    document.body.appendChild(banner);
+
+    // Slight delay so transform transition plays
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        banner.classList.add('is-visible');
+      });
+    });
+
+    banner.addEventListener('click', function(e) {
+      var btn = e.target.closest('[data-consent]');
+      if (!btn) return;
+      var choice = btn.getAttribute('data-consent');
+      try { localStorage.setItem('stmp_consent', choice); } catch(e) {}
+      if (choice === 'granted' && typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted'
+        });
+      }
+      banner.classList.remove('is-visible');
+      setTimeout(function() { banner.remove(); }, 400);
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     STRATEGY-CALL FORM (replaces Acuity iframe)
+  ══════════════════════════════════════════════════════════ */
+  function initStrategyCallForm() {
+    var form = document.getElementById('strategyCallForm');
+    if (!form) return;
+
+    var successView = document.getElementById('scSuccessView');
+    var submitBtn = document.getElementById('scSubmitBtn');
+
+    function showSuccess() {
+      form.style.display = 'none';
+      if (successView) successView.hidden = false;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Honeypot: bot fills hidden field, silent success, no send.
+      var hp = form.querySelector('input[name="website_confirm"]');
+      if (hp && hp.value) { showSuccess(); return; }
+
+      function clearErrors() {
+        form.querySelectorAll('.has-error').forEach(function (g) {
+          g.classList.remove('has-error');
+        });
+      }
+      function flagError(selector) {
+        var el = form.querySelector(selector);
+        if (!el) return;
+        var group = el.closest('.stmp-form-group');
+        if (group) group.classList.add('has-error');
+        el.focus();
+      }
+
+      clearErrors();
+
+      var firstName = form.querySelector('#scFirstName').value.trim();
+      var email = form.querySelector('#scEmail').value.trim();
+      var phone = form.querySelector('#scPhone').value.trim();
+      var window1 = form.querySelector('#scWindow1').value;
+
+      if (!firstName)      { flagError('#scFirstName'); return; }
+      if (!email)          { flagError('#scEmail'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { flagError('#scEmail'); return; }
+      if (!phone)          { flagError('#scPhone'); return; }
+      if (!window1)        { flagError('#scWindow1'); return; }
+
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+
+      var payload = {
+        form_type: 'strategy_call',
+        firstName: firstName,
+        lastName: form.querySelector('#scLastName').value.trim(),
+        email: email,
+        phone: phone,
+        business: form.querySelector('#scBusiness').value.trim(),
+        window1: window1,
+        window2: form.querySelector('#scWindow2').value,
+        note: form.querySelector('#scNote').value.trim(),
+        page_url: location.href,
+        timestamp: new Date().toISOString()
+      };
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          form_type: 'strategy_call',
+          page_location: location.href,
+          value: 75
+        });
+      }
+
+      fetch(CONFIG.APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      }).catch(function () {});
+
+      setTimeout(showSuccess, 700);
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
      KEYBOARD HANDLERS — ESC closes modal and mobile menu
   ══════════════════════════════════════════════════════════ */
   function initKeyboard() {
@@ -487,6 +626,11 @@
     initCarousel();
     initModal();
     initNewsletter();
+    initStrategyCallForm();
+    // initConsentBanner();  // disabled while Stampede is too small to hit
+                             // VCDPA/CCPA thresholds. Re-enable when we scale
+                             // by uncommenting this AND restoring the Consent
+                             // Mode v2 defaults in each page's head gtag snippet.
     initKeyboard();
   }
 
