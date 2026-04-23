@@ -6,12 +6,15 @@
 /* ── PAGE HERO (shared across Resources, FAQ) ── */
 .page-hero {
   position: relative;
-  padding: 140px 0 80px;
+  padding: 140px 0 40px;
   text-align: center;
   overflow: hidden;
   background: var(--color-bg-dark, #09090B);
   border-bottom: 1px solid rgba(123,45,142,0.2);
 }
+/* When a content section follows a page-hero directly, halve its top padding
+   so the first cards don't sit in a canyon. */
+.page-hero + .stmp-section { padding-top: 30px; }
 .page-hero-orb {
   position: absolute;
   border-radius: 50%;

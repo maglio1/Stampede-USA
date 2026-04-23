@@ -21,7 +21,7 @@
     APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec',
     EMAIL_PARTS: ['charge', 'stampedeusa.com'],  // obfuscated — joined at runtime
     EMAIL_DISPLAY: 'Charge@StampedeUSA.com',     // branded display casing
-    PHONE: 'tel:+17034362716',
+    PHONE: 'tel:+17033014733',
     SMS: 'sms:+17033014733',                     // text-capable burner line
     NAV_HEIGHT: 80,
     STICKY_BAR_THRESHOLD: 400
