@@ -55,7 +55,7 @@
 }
 .page-hero-sub {
   font-size: clamp(1rem, 2vw, 1.2rem);
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.9);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.7;
@@ -85,7 +85,7 @@
 .resources-access-banner {
   background: rgba(123,45,142,0.1);
   border: 1px solid rgba(123,45,142,0.3);
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.92);
 }
 .resources-unlocked-banner {
   background: rgba(0,212,255,0.08);
@@ -134,7 +134,7 @@
   position: absolute;
   top: 16px; right: 20px;
   background: none; border: none;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.8);
   font-size: 24px;
   cursor: pointer;
   line-height: 1;
@@ -157,7 +157,7 @@
   margin: 0 0 10px;
 }
 .dlgate-box p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   font-size: 0.95rem;
   line-height: 1.7;
   margin: 0 0 28px;
@@ -183,7 +183,7 @@
   border-color: #7B2D8E;
   box-shadow: 0 0 0 3px rgba(123,45,142,0.2);
 }
-.dlgate-inputs input::placeholder { color: rgba(255,255,255,0.35); }
+.dlgate-inputs input::placeholder { color: rgba(255,255,255,0.6); }
 .dlgate-inputs .stmp-btn {
   width: 100%;
   justify-content: center;
@@ -193,10 +193,10 @@
 }
 .dlgate-privacy {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
   margin-top: 14px;
 }
-.dlgate-privacy a { color: rgba(255,255,255,0.45); text-decoration: underline; }
+.dlgate-privacy a { color: rgba(255,255,255,0.9); text-decoration: underline; }
 
 /* Success state inside modal */
 .dlgate-success-icon {
@@ -252,7 +252,7 @@
   letter-spacing: 1px;
 }
 .resources-gate-card p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   font-size: 1rem;
   line-height: 1.7;
   margin: 0 0 32px;
@@ -277,7 +277,7 @@
   border-color: #7B2D8E;
   box-shadow: 0 0 0 3px rgba(123,45,142,0.2);
 }
-.resources-gate-inputs input::placeholder { color: rgba(255,255,255,0.35); }
+.resources-gate-inputs input::placeholder { color: rgba(255,255,255,0.6); }
 .resources-gate-inputs .stmp-btn {
   width: 100%;
   justify-content: center;
@@ -287,10 +287,10 @@
 }
 .resources-gate-privacy {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
   margin-top: 16px;
 }
-.resources-gate-privacy a { color: rgba(255,255,255,0.5); text-decoration: underline; }
+.resources-gate-privacy a { color: rgba(255,255,255,0.9); text-decoration: underline; }
 
 /* Unlocked state */
 .resources-unlocked { padding-top: 20px; }
@@ -323,7 +323,7 @@
   letter-spacing: 1px;
 }
 .resources-unlocked-header p {
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.88);
   margin: 0;
   font-size: 14px;
 }
@@ -370,7 +370,7 @@
 }
 .resource-card-body p {
   font-size: 13px;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.9);
   line-height: 1.6;
   margin: 0 0 12px;
 }
@@ -418,7 +418,7 @@
   letter-spacing: 1px;
 }
 .resources-bottom-cta p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   margin: 0 0 32px;
   font-size: 1.05rem;
 }
@@ -486,7 +486,7 @@
   padding: 0 0 20px;
 }
 .faq-answer p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   font-size: 14px;
   line-height: 1.75;
   margin: 0;
@@ -507,7 +507,7 @@
   margin: 0 0 10px;
 }
 .faq-cta-card p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   font-size: 14px;
   line-height: 1.7;
   margin: 0 0 24px;
@@ -528,7 +528,7 @@
   margin: 0 0 16px;
 }
 .page-bottom-cta p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.9);
   font-size: 1.1rem;
   margin: 0 0 32px;
 }
@@ -547,7 +547,7 @@
   margin: 0 0 8px;
 }
 .legal-updated {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.8);
   font-size: 13px;
   margin: 0;
 }
@@ -568,7 +568,7 @@
 }
 .legal-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
 .legal-body p {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.92);
   font-size: 15px;
   line-height: 1.8;
   margin: 0 0 16px;
