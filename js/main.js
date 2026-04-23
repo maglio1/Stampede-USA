@@ -382,6 +382,14 @@
           timestamp: new Date().toISOString()
         };
 
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', {
+            form_type: 'audit_request',
+            page_location: location.href,
+            value: 100
+          });
+        }
+
         fetch(CONFIG.APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -440,6 +448,14 @@
       btn.textContent = '...';
       btn.disabled = true;
 
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          form_type: 'newsletter',
+          page_location: location.href,
+          value: 10
+        });
+      }
+
       fetch(CONFIG.APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -460,6 +476,38 @@
         }, 2500);
       }, 600);
     });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     CLICK TRACKING — tel:, sms:, pdf downloads
+     Fires GA4 events on phone calls, text clicks, and any PDF
+     download link. One delegated listener, catches everything.
+  ══════════════════════════════════════════════════════════ */
+  function initClickTracking() {
+    if (typeof gtag !== 'function') return;
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href') || '';
+
+      if (href.indexOf('tel:') === 0) {
+        gtag('event', 'phone_click', {
+          page_location: location.href,
+          phone_number: href.replace('tel:', '')
+        });
+      } else if (href.indexOf('sms:') === 0) {
+        gtag('event', 'sms_click', {
+          page_location: location.href,
+          phone_number: href.replace('sms:', '')
+        });
+      } else if (href.match(/\.pdf($|\?)/i)) {
+        gtag('event', 'file_download', {
+          page_location: location.href,
+          file_name: href.split('/').pop().split('?')[0],
+          file_extension: 'pdf'
+        });
+      }
+    }, { passive: true });
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -789,6 +837,7 @@
     initModal();
     initNewsletter();
     initScheduler();
+    initClickTracking();
     // initConsentBanner();  // disabled while Stampede is too small to hit
                              // VCDPA/CCPA thresholds. Re-enable when we scale
                              // by uncommenting this AND restoring the Consent

@@ -93,12 +93,7 @@
         "url": "https://www.stampedeusa.com",
         "name": "Stampede USA",
         "description": "Northern Virginia digital marketing agency",
-        "publisher": {"@id": "https://www.stampedeusa.com/#business"},
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://www.stampedeusa.com/?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "publisher": {"@id": "https://www.stampedeusa.com/#business"}
       },
       {
         "@type": "WebPage",
@@ -173,7 +168,7 @@
       <!-- AUDIT FIX: Phone in nav for local B2B buyers who prefer to call -->
       <li><a href="tel:+17033014733" class="stmp-nav-phone" aria-label="Call Stampede USA">(703) 301-4733</a></li>
       <li><a href="sms:+17033014733" class="stmp-nav-phone" aria-label="Text Stampede USA">Text us</a></li>
-      <li><a href="#" class="stmp-nav-cta" id="navAuditBtn">Free Website Audit</a></li>
+      <li><a href="#stmp-audit" class="stmp-nav-cta" id="navAuditBtn">Free Website Audit</a></li>
     </ul>
     <button class="stmp-nav-toggle" id="stmpNavToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="stmp-mobile-menu">
       <span></span><span></span><span></span>
@@ -184,7 +179,7 @@
 <!-- MOBILE MENU -->
 <div id="stmp-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <button class="stmp-mobile-menu-close" id="stmpMobileClose" aria-label="Close navigation menu">&times;</button>
-  <div class="stmp-mobile-menu-cta"><a href="#" class="mobileAuditBtn">Free Website Audit</a></div>
+  <div class="stmp-mobile-menu-cta"><a href="#stmp-audit" class="mobileAuditBtn">Free Website Audit</a></div>
   <ul class="stmp-mobile-menu-links" role="list">
     <li><a href="#stmp-services">What We Do</a></li>
     <li><a href="work.html">Work</a></li>
@@ -229,7 +224,7 @@
       </div>
       <div class="stmp-hero-buttons">
         <a href="#stmp-services" class="stmp-btn stmp-btn-secondary">See What We Do</a>
-        <a href="#" class="stmp-btn stmp-btn-primary audit-trigger">
+        <a href="#stmp-audit" class="stmp-btn stmp-btn-primary audit-trigger">
           Get My Free Audit
           <svg class="stmp-btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -352,6 +347,53 @@
         <p class="stmp-service-desc">We dig into vendor contracts and tooling to find wasted spend, then put that budget back to work on what actually drives revenue.</p>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     INDUSTRIES WE WORK WITH
+═══════════════════════════════════════════════════════════════ -->
+<section id="stmp-industries" class="stmp-industries-section" aria-labelledby="industries-heading">
+  <div class="stmp-container">
+    <div class="stmp-industries-head stmp-reveal">
+      <div class="stmp-section-tag">Industries We Work With</div>
+      <h2 class="stmp-industries-title" id="industries-heading">Small businesses who feel it in the bank account.</h2>
+      <p class="stmp-industries-sub">Most of our work is with owner-operators and small teams running real books.</p>
+    </div>
+    <div class="stmp-industries-grid stmp-reveal">
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home Services</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21h18M5 21V11l7-6 7 6v10"/><path d="M9 21v-6h6v6"/></svg>
+        <span>Contractors &amp; Landscaping</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Health &amp; Wellness</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Food &amp; Hospitality</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Professional Services</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>Retail &amp; E-Commerce</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17h10M6 13l2-5h8l2 5M7 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM21 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM3 13h18v4H3z"/></svg>
+        <span>Auto Services</span>
+      </div>
+      <div class="stmp-industry-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>
+        <span>Real Estate</span>
+      </div>
     </div>
   </div>
 </section>
@@ -565,7 +607,7 @@
         <div class="stmp-audit-feature"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>What we'd fix first</div>
         <div class="stmp-audit-feature"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>What it should return</div>
       </div>
-      <a href="#" class="stmp-btn stmp-btn-audit audit-trigger">
+      <a href="#stmp-audit" class="stmp-btn stmp-btn-audit audit-trigger">
         Request Your Free Audit
         <svg class="stmp-btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
@@ -681,7 +723,7 @@
   <a href="#stmp-services">Services</a>
   <a href="#stmp-about">About</a>
   <a href="#stmp-strategy">Book Call</a>
-  <a href="#" class="stmp-sticky-cta audit-trigger">Free Website Audit</a>
+  <a href="#stmp-audit" class="stmp-sticky-cta audit-trigger">Free Website Audit</a>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -790,7 +832,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     <span>Text</span>
   </a>
-  <a href="#" class="stmp-mobile-bar-btn stmp-mobile-bar-btn--cta audit-trigger">
+  <a href="#stmp-audit" class="stmp-mobile-bar-btn stmp-mobile-bar-btn--cta audit-trigger">
     <span>Free Audit</span>
   </a>
 </div>

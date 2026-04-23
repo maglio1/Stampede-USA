@@ -17,6 +17,17 @@
   <meta name="twitter:title" content="Free Marketing Resources | Stampede USA">
   <meta name="twitter:description" content="12 free marketing tools and checklists for Northern Virginia small businesses.">
   <meta name="twitter:image" content="https://www.stampedeusa.com/assets/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stampedeusa.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Resources", "item": "https://www.stampedeusa.com/resources.html"}
+    ]
+  }
+  </script>
+
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +59,7 @@
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="tel:+17033014733" class="stmp-nav-phone" aria-label="Call Stampede USA">(703) 301-4733</a></li>
       <li><a href="sms:+17033014733" class="stmp-nav-phone" aria-label="Text Stampede USA">Text us</a></li>
-      <li><a href="#" class="stmp-nav-cta" id="navAuditBtn">Free Website Audit</a></li>
+      <li><a href="index.html#stmp-audit" class="stmp-nav-cta" id="navAuditBtn">Free Website Audit</a></li>
     </ul>
     <button class="stmp-nav-toggle" id="stmpNavToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="stmp-mobile-menu">
       <span></span><span></span><span></span>
@@ -59,7 +70,7 @@
 <!-- MOBILE MENU -->
 <div id="stmp-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <button class="stmp-mobile-menu-close" id="stmpMobileClose" aria-label="Close navigation menu">&times;</button>
-  <div class="stmp-mobile-menu-cta"><a href="#" class="mobileAuditBtn">Free Website Audit</a></div>
+  <div class="stmp-mobile-menu-cta"><a href="index.html#stmp-audit" class="mobileAuditBtn">Free Website Audit</a></div>
   <ul class="stmp-mobile-menu-links" role="list">
     <li><a href="index.html#stmp-services">What We Do</a></li>
     <li><a href="work.html">Work</a></li>
@@ -291,7 +302,7 @@
           <h2>Ready to stop doing this yourself?</h2>
           <p>The tools show you where the problems are. We fix them. That's the whole business.</p>
           <div class="resources-bottom-cta-btns">
-            <a href="#" class="stmp-btn stmp-btn-primary audit-trigger">Get a Free Website Audit</a>
+            <a href="index.html#stmp-audit" class="stmp-btn stmp-btn-primary audit-trigger">Get a Free Website Audit</a>
             <a href="index.html#stmp-strategy" class="stmp-btn stmp-btn-secondary">Book a Strategy Call</a>
           </div>
         </div>
@@ -581,6 +592,14 @@
 
     btn.textContent = 'Unlocking...';
     btn.disabled = true;
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        form_type: 'resource_download',
+        page_location: location.href,
+        value: 25
+      });
+    }
 
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
