@@ -46,8 +46,8 @@
   --font-hero:'Bebas Neue',sans-serif;
   --font-body:'Source Sans 3',sans-serif;
   --section-padding:clamp(50px,8vw,80px);
-  --container-width:1280px;
-  --container-padding:clamp(10px,1.5vw,20px);  /* tight edges, max 20px per side on desktop */
+  --container-width:1440px;  /* wider content area so sections feel less pinched on big screens */
+  --container-padding:clamp(10px,1.5vw,20px);
   --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
   --duration-fast:0.2s;
   --duration-normal:0.4s
