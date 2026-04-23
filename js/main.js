@@ -156,23 +156,26 @@
   ══════════════════════════════════════════════════════════ */
   function initLazyIframes() {
     var map = document.getElementById('mapIframe');
-    if (!map) return;
+    var mapContainer = document.getElementById('mapContainer');
+    if (!map || !mapContainer) return;
 
     if (!('IntersectionObserver' in window)) {
       loadIframe('mapIframe', 'mapPlaceholder');
       return;
     }
 
+    // IntersectionObserver on a display:none element never fires. Observe the
+    // visible wrapper instead, and swap in the iframe when it scrolls close.
     var iframeObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          loadIframe(entry.target.id, 'mapPlaceholder');
+          loadIframe('mapIframe', 'mapPlaceholder');
           iframeObserver.unobserve(entry.target);
         }
       });
     }, { rootMargin: '200px' });
 
-    iframeObserver.observe(map);
+    iframeObserver.observe(mapContainer);
   }
 
   function loadIframe(iframeId, placeholderId) {
@@ -512,29 +515,183 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     STRATEGY-CALL FORM (replaces Acuity iframe)
+     SCHEDULER — calendar picker + time slot + contact form
+     Visually mirrors Calendly/Acuity. Availability is universal
+     (any weekday slot in the next ~8 weeks). Double-booking is
+     intentionally possible; Matt confirms the actual slot via email.
   ══════════════════════════════════════════════════════════ */
-  function initStrategyCallForm() {
-    var form = document.getElementById('strategyCallForm');
-    if (!form) return;
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var TIME_SLOTS = [
+    '9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM',
+    '1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'
+  ];
 
-    var successView = document.getElementById('scSuccessView');
-    var submitBtn = document.getElementById('scSubmitBtn');
+  function initScheduler() {
+    var root = document.getElementById('stmpScheduler');
+    if (!root) return;
 
-    function showSuccess() {
-      form.style.display = 'none';
-      if (successView) successView.hidden = false;
+    var form = root.querySelector('#strategyCallForm');
+    var submitBtn = root.querySelector('#scSubmitBtn');
+    var calGrid = root.querySelector('#stmpCalGrid');
+    var calTitle = root.querySelector('#stmpCalTitle');
+    var prevBtn = root.querySelector('#stmpCalPrev');
+    var nextBtn = root.querySelector('#stmpCalNext');
+    var timeGrid = root.querySelector('#stmpTimeGrid');
+    var timeDateLabel = root.querySelector('#stmpTimeDateLabel');
+    var formWhenLabel = root.querySelector('#stmpFormWhenLabel');
+    var successWhen = root.querySelector('#stmpSuccessWhen');
+    var window1Hidden = root.querySelector('#scWindow1');
+    var steps = root.querySelectorAll('.stmp-sched-step');
+    var dots = root.querySelectorAll('.stmp-sched-step-dot');
+    var lines = root.querySelectorAll('.stmp-sched-step-line');
+
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    var selectedDate = null;  // Date
+    var selectedTime = null;  // string
+
+    // How far forward can a user book. 8 weeks is generous and honest.
+    var bookingHorizon = new Date(today);
+    bookingHorizon.setDate(today.getDate() + 56);
+
+    function goToStep(name) {
+      steps.forEach(function(s) { s.hidden = s.getAttribute('data-step') !== name; });
+      var stepIndex = { calendar:1, time:2, form:3, success:3 }[name] || 1;
+      dots.forEach(function(d) {
+        var idx = parseInt(d.getAttribute('data-dot'), 10);
+        d.classList.toggle('is-active', idx === stepIndex);
+        d.classList.toggle('is-done', idx < stepIndex);
+      });
+      lines.forEach(function(l, i) {
+        l.classList.toggle('is-done', (i + 1) < stepIndex);
+      });
     }
 
-    form.addEventListener('submit', function (e) {
+    function sameDay(a, b) {
+      return a && b && a.getFullYear() === b.getFullYear()
+        && a.getMonth() === b.getMonth()
+        && a.getDate() === b.getDate();
+    }
+
+    function formatLongDate(d) {
+      return WEEKDAYS[d.getDay()].replace('Sun','Sunday').replace('Mon','Monday').replace('Tue','Tuesday').replace('Wed','Wednesday').replace('Thu','Thursday').replace('Fri','Friday').replace('Sat','Saturday')
+        + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
+    }
+
+    function renderCalendar() {
+      calTitle.textContent = MONTHS[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
+      calGrid.innerHTML = '';
+
+      var firstDow = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1).getDay();
+      var daysInMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0).getDate();
+
+      // Empty cells before day 1
+      for (var i = 0; i < firstDow; i++) {
+        var empty = document.createElement('div');
+        empty.className = 'stmp-cal-cell is-empty';
+        empty.setAttribute('aria-hidden', 'true');
+        calGrid.appendChild(empty);
+      }
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        var cellDate = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), d);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'stmp-cal-cell';
+        btn.textContent = String(d);
+        btn.setAttribute('role', 'gridcell');
+
+        var isPast = cellDate < today;
+        var isBeyondHorizon = cellDate > bookingHorizon;
+        var isWeekend = cellDate.getDay() === 0 || cellDate.getDay() === 6;
+
+        if (sameDay(cellDate, today))       btn.classList.add('is-today');
+        if (sameDay(cellDate, selectedDate)) btn.classList.add('is-selected');
+        if (isPast || isBeyondHorizon || isWeekend) {
+          btn.disabled = true;
+          if (isWeekend && !isPast) btn.title = 'Weekdays only';
+        } else {
+          (function(cd) {
+            btn.addEventListener('click', function() { onDateSelect(cd); });
+          })(cellDate);
+        }
+        calGrid.appendChild(btn);
+      }
+
+      // Prev disabled if current month is viewed
+      prevBtn.disabled = viewMonth.getFullYear() === today.getFullYear()
+        && viewMonth.getMonth() === today.getMonth();
+      // Next disabled past horizon month
+      var horizonMonth = new Date(bookingHorizon.getFullYear(), bookingHorizon.getMonth(), 1);
+      nextBtn.disabled = viewMonth.getFullYear() === horizonMonth.getFullYear()
+        && viewMonth.getMonth() === horizonMonth.getMonth();
+    }
+
+    function onDateSelect(date) {
+      selectedDate = date;
+      renderCalendar();
+      timeDateLabel.textContent = formatLongDate(date);
+      renderTimes();
+      goToStep('time');
+    }
+
+    function renderTimes() {
+      timeGrid.innerHTML = '';
+      TIME_SLOTS.forEach(function(slot) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'stmp-time-slot';
+        btn.textContent = slot;
+        btn.setAttribute('role', 'listitem');
+        btn.addEventListener('click', function() { onTimeSelect(slot); });
+        timeGrid.appendChild(btn);
+      });
+    }
+
+    function onTimeSelect(time) {
+      selectedTime = time;
+      var label = formatLongDate(selectedDate) + ' at ' + time + ' ET';
+      formWhenLabel.textContent = label;
+      if (window1Hidden) window1Hidden.value = label;
+      goToStep('form');
+    }
+
+    // Back buttons
+    root.querySelectorAll('[data-back]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        goToStep(btn.getAttribute('data-back'));
+      });
+    });
+
+    prevBtn.addEventListener('click', function() {
+      viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1);
+      renderCalendar();
+    });
+    nextBtn.addEventListener('click', function() {
+      viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    // Form submission
+    function showSuccess() {
+      var label = selectedDate && selectedTime
+        ? formatLongDate(selectedDate) + ' at ' + selectedTime + ' ET'
+        : 'your call';
+      if (successWhen) successWhen.textContent = label;
+      goToStep('success');
+    }
+
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Honeypot: bot fills hidden field, silent success, no send.
+      // Honeypot: silent fake success
       var hp = form.querySelector('input[name="website_confirm"]');
       if (hp && hp.value) { showSuccess(); return; }
 
       function clearErrors() {
-        form.querySelectorAll('.has-error').forEach(function (g) {
+        form.querySelectorAll('.has-error').forEach(function(g) {
           g.classList.remove('has-error');
         });
       }
@@ -551,16 +708,18 @@
       var firstName = form.querySelector('#scFirstName').value.trim();
       var email = form.querySelector('#scEmail').value.trim();
       var phone = form.querySelector('#scPhone').value.trim();
-      var window1 = form.querySelector('#scWindow1').value;
 
-      if (!firstName)      { flagError('#scFirstName'); return; }
-      if (!email)          { flagError('#scEmail'); return; }
+      if (!firstName) { flagError('#scFirstName'); return; }
+      if (!email)     { flagError('#scEmail'); return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { flagError('#scEmail'); return; }
-      if (!phone)          { flagError('#scPhone'); return; }
-      if (!window1)        { flagError('#scWindow1'); return; }
+      if (!phone)     { flagError('#scPhone'); return; }
 
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = 'Booking...';
       submitBtn.disabled = true;
+
+      var when = selectedDate && selectedTime
+        ? formatLongDate(selectedDate) + ' at ' + selectedTime + ' ET'
+        : '';
 
       var payload = {
         form_type: 'strategy_call',
@@ -569,8 +728,7 @@
         email: email,
         phone: phone,
         business: form.querySelector('#scBusiness').value.trim(),
-        window1: window1,
-        window2: form.querySelector('#scWindow2').value,
+        window1: when,
         note: form.querySelector('#scNote').value.trim(),
         page_url: location.href,
         timestamp: new Date().toISOString()
@@ -589,10 +747,14 @@
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
-      }).catch(function () {});
+      }).catch(function() {});
 
       setTimeout(showSuccess, 700);
     });
+
+    // Initial render
+    renderCalendar();
+    goToStep('calendar');
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -626,7 +788,7 @@
     initCarousel();
     initModal();
     initNewsletter();
-    initStrategyCallForm();
+    initScheduler();
     // initConsentBanner();  // disabled while Stampede is too small to hit
                              // VCDPA/CCPA thresholds. Re-enable when we scale
                              // by uncommenting this AND restoring the Consent

@@ -387,84 +387,105 @@
           </ul>
         </div>
       </div>
-      <!-- STRATEGY-CALL FORM (replaces Acuity iframe) -->
-      <div class="stmp-strategy-form-wrapper stmp-reveal stmp-reveal-delay-1" id="strategyFormWrapper">
-        <div class="stmp-strategy-form-card">
-          <div class="stmp-strategy-form-header">
+      <!-- SCHEDULER (calendar picker + time slot + contact form) -->
+      <div class="stmp-scheduler stmp-reveal stmp-reveal-delay-1" id="stmpScheduler">
+        <div class="stmp-sched-card">
+
+          <div class="stmp-sched-header">
             <div class="stmp-modal-eyebrow">Book a Strategy Call</div>
-            <h3 class="stmp-strategy-form-title">Tell us when works. We'll confirm within 24 to 48 hours.</h3>
-            <p class="stmp-strategy-form-sub">30-minute working session. No pitch deck.</p>
+            <h3 class="stmp-sched-title" id="schedHeadline">Pick a time that works for you.</h3>
+            <p class="stmp-sched-sub" id="schedSub">30 minutes. Phone or video, your call. We confirm by email with the meeting link.</p>
           </div>
-          <form id="strategyCallForm" class="stmp-modal-form" novalidate>
-            <input type="text" name="website_confirm" tabindex="-1" autocomplete="off" aria-hidden="true" class="stmp-honeypot">
 
-            <div class="stmp-form-row">
-              <div class="stmp-form-group">
-                <label for="scFirstName">First Name <span aria-hidden="true">*</span></label>
-                <input type="text" id="scFirstName" name="firstName" required autocomplete="given-name" placeholder="Jane">
+          <div class="stmp-sched-progress" aria-hidden="true">
+            <span class="stmp-sched-step-dot is-active" data-dot="1">1</span>
+            <span class="stmp-sched-step-line"></span>
+            <span class="stmp-sched-step-dot" data-dot="2">2</span>
+            <span class="stmp-sched-step-line"></span>
+            <span class="stmp-sched-step-dot" data-dot="3">3</span>
+          </div>
+
+          <!-- STEP 1: CALENDAR -->
+          <div class="stmp-sched-step" data-step="calendar">
+            <div class="stmp-cal-controls">
+              <button type="button" class="stmp-cal-nav" id="stmpCalPrev" aria-label="Previous month">&#8249;</button>
+              <div class="stmp-cal-title" id="stmpCalTitle" aria-live="polite">Month Year</div>
+              <button type="button" class="stmp-cal-nav" id="stmpCalNext" aria-label="Next month">&#8250;</button>
+            </div>
+            <div class="stmp-cal-dow" aria-hidden="true">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="stmp-cal-grid" id="stmpCalGrid" role="grid"></div>
+            <p class="stmp-sched-tz">All times Eastern (ET)</p>
+          </div>
+
+          <!-- STEP 2: TIME SLOTS -->
+          <div class="stmp-sched-step" data-step="time" hidden>
+            <button type="button" class="stmp-sched-back" data-back="calendar">&#8249; Back to calendar</button>
+            <div class="stmp-sched-picked">
+              Available on <strong id="stmpTimeDateLabel">—</strong>
+            </div>
+            <div class="stmp-time-grid" id="stmpTimeGrid" role="list"></div>
+          </div>
+
+          <!-- STEP 3: CONTACT FORM -->
+          <div class="stmp-sched-step" data-step="form" hidden>
+            <button type="button" class="stmp-sched-back" data-back="time">&#8249; Change time</button>
+            <div class="stmp-sched-picked">
+              Booking <strong id="stmpFormWhenLabel">—</strong>
+            </div>
+            <form id="strategyCallForm" class="stmp-modal-form" novalidate>
+              <input type="text" name="website_confirm" tabindex="-1" autocomplete="off" aria-hidden="true" class="stmp-honeypot">
+              <input type="hidden" name="window1" id="scWindow1">
+
+              <div class="stmp-form-row">
+                <div class="stmp-form-group">
+                  <label for="scFirstName">First Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="scFirstName" name="firstName" required autocomplete="given-name" placeholder="Jane">
+                </div>
+                <div class="stmp-form-group">
+                  <label for="scLastName">Last Name</label>
+                  <input type="text" id="scLastName" name="lastName" autocomplete="family-name" placeholder="Smith">
+                </div>
               </div>
+
               <div class="stmp-form-group">
-                <label for="scLastName">Last Name</label>
-                <input type="text" id="scLastName" name="lastName" autocomplete="family-name" placeholder="Smith">
+                <label for="scEmail">Email <span aria-hidden="true">*</span></label>
+                <input type="email" id="scEmail" name="email" required autocomplete="email" placeholder="jane@yourbusiness.com">
               </div>
-            </div>
 
-            <div class="stmp-form-group">
-              <label for="scEmail">Email <span aria-hidden="true">*</span></label>
-              <input type="email" id="scEmail" name="email" required autocomplete="email" placeholder="jane@yourbusiness.com">
-            </div>
-
-            <div class="stmp-form-group">
-              <label for="scPhone">Phone <span aria-hidden="true">*</span></label>
-              <input type="tel" id="scPhone" name="phone" required autocomplete="tel" placeholder="(703) 555-0100">
-            </div>
-
-            <div class="stmp-form-group">
-              <label for="scBusiness">Business or Website</label>
-              <input type="text" id="scBusiness" name="business" autocomplete="organization" placeholder="Your business or website URL">
-            </div>
-
-            <div class="stmp-form-row">
               <div class="stmp-form-group">
-                <label for="scWindow1">Preferred Time <span aria-hidden="true">*</span></label>
-                <select id="scWindow1" name="window1" required>
-                  <option value="">Select a window...</option>
-                  <option>This week, weekday morning (9a-12p ET)</option>
-                  <option>This week, weekday afternoon (12p-5p ET)</option>
-                  <option>Next week, weekday morning (9a-12p ET)</option>
-                  <option>Next week, weekday afternoon (12p-5p ET)</option>
-                  <option>Flexible. Call me to coordinate.</option>
-                </select>
+                <label for="scPhone">Phone <span aria-hidden="true">*</span></label>
+                <input type="tel" id="scPhone" name="phone" required autocomplete="tel" placeholder="(703) 555-0100">
               </div>
+
               <div class="stmp-form-group">
-                <label for="scWindow2">Backup Time</label>
-                <select id="scWindow2" name="window2">
-                  <option value="">Select a backup window...</option>
-                  <option>This week, weekday morning (9a-12p ET)</option>
-                  <option>This week, weekday afternoon (12p-5p ET)</option>
-                  <option>Next week, weekday morning (9a-12p ET)</option>
-                  <option>Next week, weekday afternoon (12p-5p ET)</option>
-                </select>
+                <label for="scBusiness">Business or Website</label>
+                <input type="text" id="scBusiness" name="business" autocomplete="organization" placeholder="Your business or website URL">
               </div>
-            </div>
 
-            <div class="stmp-form-group">
-              <label for="scNote">What should we look at first?</label>
-              <textarea id="scNote" name="note" rows="3" placeholder="Google Ads not converting, new site plans, local SEO stuck, whatever's bugging you."></textarea>
-            </div>
+              <div class="stmp-form-group">
+                <label for="scNote">What should we look at first?</label>
+                <textarea id="scNote" name="note" rows="3" placeholder="Google Ads not converting, new site plans, local SEO stuck, whatever's bugging you."></textarea>
+              </div>
 
-            <p class="stmp-form-privacy">We respect your privacy. <a href="privacy-policy.html">Privacy Policy</a></p>
-            <button type="submit" class="stmp-form-submit" id="scSubmitBtn">
-              Request My Call &rarr;
-            </button>
-          </form>
-          <div id="scSuccessView" hidden>
+              <p class="stmp-form-privacy">We respect your privacy. <a href="privacy-policy.html">Privacy Policy</a></p>
+              <button type="submit" class="stmp-form-submit" id="scSubmitBtn">
+                Confirm the call &rarr;
+              </button>
+            </form>
+          </div>
+
+          <!-- SUCCESS VIEW -->
+          <div class="stmp-sched-step" data-step="success" hidden>
             <div class="stmp-modal-success">
               <div class="stmp-success-icon" aria-hidden="true">&#10003;</div>
-              <h3>Got it.</h3>
-              <p>We'll confirm your call within 24 to 48 hours. If something's urgent before then, call <a href="tel:+17034362716">(703) 436-2716</a> or <a href="sms:+17033014733">text us</a>.</p>
+              <h3>You're booked.</h3>
+              <p>We'll email you shortly at the address you provided to confirm <strong id="stmpSuccessWhen">your call</strong> and send the meeting link plus anything else we need before we jump on.</p>
+              <p class="stmp-sched-success-sub">If anything changes, call <a href="tel:+17034362716">(703) 436-2716</a> or <a href="sms:+17033014733">text us</a>.</p>
             </div>
           </div>
+
         </div>
       </div>
     </div>
