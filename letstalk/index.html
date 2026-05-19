@@ -32,59 +32,6 @@
   <style>
     /* Page-specific overrides — minimal landing layout */
     body { background: var(--black); }
-    .letstalk-topbar {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 22px clamp(16px, 3vw, 32px);
-      max-width: var(--container-width);
-      margin: 0 auto;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .letstalk-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--white);
-    }
-    .letstalk-logo img {
-      height: 44px;
-      width: auto;
-    }
-    .letstalk-logo span {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      line-height: 1;
-    }
-    .letstalk-logo span small {
-      display: block;
-      font-size: 9px;
-      letter-spacing: 0.5em;
-      color: var(--cyan);
-      margin-top: 4px;
-    }
-    .letstalk-contact {
-      display: inline-flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .letstalk-contact a {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--white);
-      text-decoration: none;
-      transition: color var(--duration-fast);
-    }
-    .letstalk-contact a:hover { color: var(--gold); }
     .letstalk-footer {
       padding: 36px clamp(16px, 3vw, 32px) 48px;
       text-align: center;
@@ -99,31 +46,53 @@
       margin: 0 10px;
     }
     .letstalk-footer a:hover { color: var(--gold); }
-    /* Tighter strategy section on this page since it's the only thing here */
-    #stmp-strategy.stmp-section { padding-top: 16px; }
-    @media (max-width: 600px) {
-      .letstalk-topbar { padding: 16px 12px; gap: 12px; }
-      .letstalk-logo span { font-size: 18px; }
-      .letstalk-contact { gap: 12px; }
-      .letstalk-contact a { font-size: 11px; }
-    }
+    /* Tighter strategy section on this page since it's the only content */
+    #stmp-strategy.stmp-section { padding-top: 30px; }
   </style>
 </head>
 <body>
 
 <a href="#main-content" class="skip-nav">Skip to main content</a>
 
-<!-- MINIMAL TOP BAR -->
-<header class="letstalk-topbar" aria-label="Site header">
-  <a href="/" class="letstalk-logo" aria-label="Stampede USA Home">
-    <img src="/assets/images/favicon.png" alt="Stampede USA" width="44" height="44" loading="eager">
-    <span>STAMPEDE<small>USA</small></span>
-  </a>
-  <div class="letstalk-contact">
-    <a href="tel:+17033014733">(703) 301-4733</a>
-    <a href="sms:+17033014733">Text us</a>
+<!-- NAV — same as other pages so visitors can jump anywhere -->
+<nav id="stmp-nav" aria-label="Main navigation">
+  <div class="stmp-nav-container">
+    <a href="/" class="stmp-nav-logo" aria-label="Stampede USA Home">
+      <img src="/assets/images/favicon.png" alt="Stampede USA" width="44" height="44" loading="eager" style="height:44px;width:auto;">
+      <span class="stmp-nav-logo-text">STAMPEDE <span>USA</span></span>
+    </a>
+    <ul class="stmp-nav-links" role="list">
+      <li><a href="/#stmp-services">What We Do</a></li>
+      <li><a href="/work.html">Work</a></li>
+      <li><a href="/#stmp-about">Who We Are</a></li>
+      <li><a href="/#stmp-method">The Method</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/faq.html">FAQ</a></li>
+      <li><a href="tel:+17033014733" class="stmp-nav-phone" aria-label="Call Stampede USA">(703) 301-4733</a></li>
+      <li><a href="sms:+17033014733" class="stmp-nav-phone" aria-label="Text Stampede USA">Text us</a></li>
+      <li><a href="/#stmp-audit" class="stmp-nav-cta">Free Website Audit</a></li>
+    </ul>
+    <button class="stmp-nav-toggle" id="stmpNavToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="stmp-mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-</header>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="stmp-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button class="stmp-mobile-menu-close" id="stmpMobileClose" aria-label="Close navigation menu">&times;</button>
+  <div class="stmp-mobile-menu-cta"><a href="/#stmp-audit">Free Website Audit</a></div>
+  <ul class="stmp-mobile-menu-links" role="list">
+    <li><a href="/#stmp-services">What We Do</a></li>
+    <li><a href="/work.html">Work</a></li>
+    <li><a href="/#stmp-about">Who We Are</a></li>
+    <li><a href="/#stmp-method">The Method</a></li>
+    <li><a href="/resources.html">Resources</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="tel:+17033014733">(703) 301-4733</a></li>
+    <li><a href="sms:+17033014733">Text us</a></li>
+  </ul>
+</div>
 
 <main id="main-content">
 
