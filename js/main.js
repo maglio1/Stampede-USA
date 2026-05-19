@@ -685,9 +685,34 @@
       goToStep('time');
     }
 
+    function parseSlotToHHMM(slotStr) {
+      // "9:00 AM" -> {hour:9, minute:0}; "1:30 PM" -> {hour:13, minute:30}
+      var m = slotStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+      if (!m) return null;
+      var h = parseInt(m[1], 10);
+      var mn = parseInt(m[2], 10);
+      var mer = m[3].toUpperCase();
+      if (mer === 'PM' && h !== 12) h += 12;
+      if (mer === 'AM' && h === 12) h = 0;
+      return { hour: h, minute: mn };
+    }
+
     function renderTimes() {
       timeGrid.innerHTML = '';
+      var now = new Date();
+      var isToday = sameDay(selectedDate, today);
+      var bufferMs = 30 * 60 * 1000;  // 30-minute lead-time buffer
+      var rendered = 0;
+
       TIME_SLOTS.forEach(function(slot) {
+        if (isToday) {
+          var hm = parseSlotToHHMM(slot);
+          if (hm) {
+            var slotTime = new Date(selectedDate);
+            slotTime.setHours(hm.hour, hm.minute, 0, 0);
+            if (slotTime.getTime() - now.getTime() < bufferMs) return;  // already passed (or inside buffer)
+          }
+        }
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'stmp-time-slot';
@@ -695,7 +720,15 @@
         btn.setAttribute('role', 'listitem');
         btn.addEventListener('click', function() { onTimeSelect(slot); });
         timeGrid.appendChild(btn);
+        rendered++;
       });
+
+      if (rendered === 0) {
+        var empty = document.createElement('p');
+        empty.className = 'stmp-sched-empty';
+        empty.textContent = 'No more times available today. Pick another day.';
+        timeGrid.appendChild(empty);
+      }
     }
 
     function onTimeSelect(time) {
