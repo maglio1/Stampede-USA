@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /ops/
-Disallow: /audits/
 
 Sitemap: https://www.stampedeusa.com/sitemap.xml

@@ -8,3 +8,7 @@ Thumbs.db
 dist/
 build/
 .cache/
+
+# Internal working docs — never deploy (GitHub Pages serves everything in the repo)
+ops/
+audits/

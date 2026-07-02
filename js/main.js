@@ -191,65 +191,6 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     TESTIMONIAL CAROUSEL
-  ══════════════════════════════════════════════════════════ */
-  function initCarousel() {
-    var track = document.getElementById('stmpResultsTrack');
-    var dots = document.querySelectorAll('.stmp-carousel-dot');
-    var currentSlide = 0;
-    var totalSlides = dots.length;
-    var autoplayInterval;
-    var touchStartX = 0;
-
-    if (!track || !totalSlides) return;
-
-    function goToSlide(i) {
-      currentSlide = i;
-      track.style.transform = 'translateX(-' + (i * 100) + '%)';
-      dots.forEach(function (d, idx) {
-        d.classList.toggle('active', idx === i);
-        d.setAttribute('aria-selected', String(idx === i));
-      });
-    }
-
-    function startAutoplay() {
-      autoplayInterval = setInterval(function () {
-        goToSlide((currentSlide + 1) % totalSlides);
-      }, 5000);
-    }
-
-    function stopAutoplay() {
-      clearInterval(autoplayInterval);
-    }
-
-    dots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () {
-        stopAutoplay();
-        goToSlide(i);
-        startAutoplay();
-      });
-    });
-
-    track.addEventListener('touchstart', function (e) {
-      touchStartX = e.changedTouches[0].screenX;
-      stopAutoplay();
-    }, { passive: true });
-
-    track.addEventListener('touchend', function (e) {
-      var diff = touchStartX - e.changedTouches[0].screenX;
-      if (diff > 50) goToSlide((currentSlide + 1) % totalSlides);
-      else if (diff < -50) goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-      startAutoplay();
-    }, { passive: true });
-
-    // Pause on hover
-    track.addEventListener('mouseenter', stopAutoplay);
-    track.addEventListener('mouseleave', startAutoplay);
-
-    startAutoplay();
-  }
-
-  /* ══════════════════════════════════════════════════════════
      AUDIT MODAL — AUDIT FIX
      Proper focus trap: Tab cycles through focusable elements.
      Focus returns to trigger element on close.
@@ -866,7 +807,6 @@
     initSmoothScroll();
     initReveal();
     initLazyIframes();
-    initCarousel();
     initModal();
     initNewsletter();
     initScheduler();
