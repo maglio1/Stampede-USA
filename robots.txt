@@ -1,4 +1,4 @@
-# Stampede USA — https://www.stampedeusa.com
+# Stampede USA — https://stampedeusa.com
 # Digital marketing agency serving Tampa Bay, Florida.
 
 User-agent: *
@@ -67,6 +67,6 @@ User-agent: Bytespider
 Allow: /
 
 # Plain-language summary written for language models:
-# https://www.stampedeusa.com/llms.txt
+# https://stampedeusa.com/llms.txt
 
-Sitemap: https://www.stampedeusa.com/sitemap.xml
+Sitemap: https://stampedeusa.com/sitemap.xml
