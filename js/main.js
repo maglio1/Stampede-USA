@@ -46,17 +46,20 @@
     ? window.performance
     : { now: function () { return Date.now(); } };
 
-  // Stamp a form the first time it's touched. The server compares this
-  // against a floor to separate humans (seconds) from replay scripts
-  // (instant). Invisible to real users — no field, no challenge.
+  // Stamp a form when it becomes AVAILABLE, not when it is first
+  // touched. The server compares this against a floor to tell humans
+  // (seconds) from replay scripts (instant).
+  //
+  // This originally stamped on first focusin/input, which measured
+  // time-spent-typing instead. A password manager or browser autofill
+  // fills every field and the user hits submit almost immediately, so a
+  // completely legitimate prospect could report well under a second and
+  // be treated as a bot. Measuring from render makes the interval
+  // strictly larger and removes that false positive.
   function trackFormTiming(form) {
     if (!form || form._stmpTimed) return;
     form._stmpTimed = true;
-    var stamp = function () {
-      if (!form._stmpOpenedAt) form._stmpOpenedAt = PERF.now();
-    };
-    form.addEventListener('focusin', stamp, { once: true });
-    form.addEventListener('input', stamp, { once: true });
+    form._stmpOpenedAt = PERF.now();
   }
 
   function postLead(payload, form) {
@@ -73,14 +76,24 @@
 
   // Shown when the submission genuinely could not be delivered, so the
   // prospect has a way to reach us instead of a false confirmation.
+  // Removes a previous failure notice so it can't sit next to a later
+  // success, or linger on a form the user navigated back to.
+  function clearSendFailure(container) {
+    if (!container) return;
+    var existing = container.querySelector('.stmp-send-error');
+    if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+  }
+
   function showSendFailure(container, submitBtn, originalLabel) {
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.textContent = originalLabel || 'Try again';
     }
     if (!container) return;
-    var existing = container.querySelector('.stmp-send-error');
-    if (existing) { existing.hidden = false; return; }
+
+    // Rebuild rather than un-hide: a repeat failure must visibly change
+    // the DOM, or role="alert" never re-announces for screen readers.
+    clearSendFailure(container);
 
     var note = document.createElement('p');
     note.className = 'stmp-send-error';
@@ -405,11 +418,12 @@
 
         postLead(payload, auditForm)
           .then(function () {
+            clearSendFailure(auditForm);
             if (formView) formView.hidden = true;
             if (successView) successView.hidden = false;
           })
           .catch(function () {
-            showSendFailure(auditForm, submitBtn, 'Send it over');
+            showSendFailure(auditForm, submitBtn, 'Request My Free Audit →');
           });
       });
     }
@@ -481,6 +495,13 @@
           btn.textContent = 'Try again';
           btn.disabled = false;
           emailInput.style.borderColor = '#EF4444';
+          // Clear the red as soon as they engage again, matching every
+          // other error path — otherwise it persists through a retry
+          // that actually succeeds.
+          emailInput.addEventListener('input', function () {
+            emailInput.style.borderColor = '';
+            btn.textContent = 'Charge';
+          }, { once: true });
         });
     });
   }
@@ -663,6 +684,15 @@
       // Refresh the ET day boundary so a long-open tab stays accurate.
       today = startOfTodayET();
       bookingHorizon = horizonFrom(today);
+
+      // viewMonth was derived once at init. Without this clamp, a tab
+      // left open across a month boundary keeps displaying the old month
+      // — every day of which is now in the past, so the whole grid
+      // renders disabled and the visitor cannot book at all.
+      var firstBookable = new Date(today.getFullYear(), today.getMonth(), 1);
+      var lastBookable = new Date(bookingHorizon.getFullYear(), bookingHorizon.getMonth(), 1);
+      if (viewMonth < firstBookable) viewMonth = firstBookable;
+      if (viewMonth > lastBookable)  viewMonth = lastBookable;
 
       calTitle.textContent = MONTHS[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
       calGrid.innerHTML = '';
@@ -864,7 +894,10 @@
       }
 
       postLead(payload, form)
-        .then(showSuccess)
+        .then(function () {
+          clearSendFailure(form);
+          showSuccess();
+        })
         .catch(function () {
           showSendFailure(form, submitBtn, 'Confirm the call →');
         });

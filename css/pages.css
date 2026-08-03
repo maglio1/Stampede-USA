@@ -723,3 +723,23 @@
   align-self: flex-start;
   margin-top: 6px;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HIDDEN ATTRIBUTE MUST WIN
+
+   The `hidden` attribute is only a UA-stylesheet `display:none`, so any
+   author rule setting `display` beats it. Several components here set
+   `display:flex` on elements that are toggled via `hidden` — most
+   visibly the resources banners, where it meant every first-time
+   visitor was shown "You're in. Grab whatever you need." while the
+   downloads were still gated, and unlockUI() appeared to do nothing.
+
+   Scoped to the components that actually rely on the attribute.
+═══════════════════════════════════════════════════════════════ */
+.resources-access-banner[hidden],
+.resources-unlocked-banner[hidden],
+.dlgate-form-view[hidden],
+.dlgate-success-view[hidden],
+.stmp-sched-step[hidden] {
+  display: none !important;
+}

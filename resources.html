@@ -508,7 +508,15 @@
   var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec';
   var UNLOCK_KEY = 'stmp_resources_unlocked';
   var pendingHref = null;
-  var formOpenedAt = null;
+
+  // Stamped at PAGE LOAD, not when the modal opens. Measuring from the
+  // modal means an autofilled name+email can be submitted a few hundred
+  // ms later and look automated; measuring from page load means the
+  // interval always covers the time it took to browse to a resource and
+  // click it. Larger is safer — this signal must never misjudge a real
+  // person, since the server mutes alerts on a fast submit.
+  var pageLoadedAt = (window.performance && window.performance.now)
+    ? window.performance.now() : null;
 
   // Storage access itself throws in some privacy modes ("block all
   // cookies" in Chrome/iOS), and setItem throws when storage is full.
@@ -518,7 +526,12 @@
   // in-memory instead.
   var memFallback = null;
   function safeGet(k) {
-    try { return sessionStorage.getItem(k); } catch (e) { return memFallback; }
+    // memFallback wins whenever it is set. Storage can be READABLE but
+    // not WRITABLE (quota full, or Safari private mode), in which case
+    // setItem throws, getItem keeps returning null, and consulting it
+    // first would re-gate a visitor who already gave us their email.
+    if (memFallback !== null) return memFallback;
+    try { return sessionStorage.getItem(k); } catch (e) { return null; }
   }
   function safeSet(k, v) {
     try { sessionStorage.setItem(k, v); } catch (e) {}
@@ -556,6 +569,20 @@
   }
 
   function openModal() {
+    // Reset to a clean form. The submit handler permanently mutates
+    // modal state (hides the form, disables the button, may append a
+    // failure note), so without this a reopened gate shows a dead
+    // success panel and the visitor can never claim a second file.
+    if (formView) formView.hidden = false;
+    if (successView) successView.hidden = true;
+    var stale = document.getElementById('dlgateSendNote');
+    if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+    var submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Unlock &amp; Download &rarr;';
+    }
+
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -581,8 +608,6 @@
       if (safeGet(UNLOCK_KEY)) return; // already unlocked — let native download happen
       e.preventDefault();
       pendingHref = btn.getAttribute('href');
-      formOpenedAt = (window.performance && window.performance.now)
-        ? window.performance.now() : null;
       openModal();
     });
   });
@@ -641,8 +666,8 @@
       resource: (pendingHref || '').split('/').pop().split('?')[0],
       page_url: location.href
     };
-    if (formOpenedAt !== null && window.performance && window.performance.now) {
-      payload.ttf_ms = Math.round(window.performance.now() - formOpenedAt);
+    if (pageLoadedAt !== null && window.performance && window.performance.now) {
+      payload.ttf_ms = Math.round(window.performance.now() - pageLoadedAt);
     }
 
     function completeUnlock() {
@@ -653,14 +678,17 @@
       deliverPendingDownload();
     }
 
+    // Two-argument .then, NOT .then().catch(): a trailing .catch also
+    // catches exceptions thrown INSIDE completeUnlock, which would
+    // re-run it and tell the visitor their signup failed when it
+    // actually succeeded. This form keeps the two outcomes separate.
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     })
-      .then(completeUnlock)
-      .catch(function () {
+      .then(completeUnlock, function () {
         // The lead didn't reach us, but the visitor asked for a file
         // and shouldn't be punished for a network they don't control.
         // Hand over the download, and say the signup didn't go through.
