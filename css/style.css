@@ -434,7 +434,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--white);lin
 .stmp-footer-logo-text span { color:#00D4FF; font-size:14px; display:block; letter-spacing:6px; margin-top:3px; }
 
 /* honeypot — hidden field that traps automated form fillers */
-.stmp-honeypot{position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;pointer-events:none;border:0;padding:0;margin:0}
+.stmp-alt-field{position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;pointer-events:none;border:0;padding:0;margin:0}
 
 /* modal success-view supporting styles */
 .stmp-modal-success-sub{margin-top:10px;color:var(--gray-400);font-size:0.92rem;line-height:1.55}
@@ -513,4 +513,54 @@ body{font-family:var(--font-body);background:var(--black);color:var(--white);lin
   .stmp-sched-step-line{flex-basis:24px}
   .stmp-cal-cell{min-height:38px;font-size:0.88rem}
   .stmp-time-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION — WCAG 2.3.3
+   The homepage runs eight simultaneous infinite animations (grid
+   drift, three blurred orbs, bull breathing, two ring pulses, the
+   scroll cue and the stats marquee). All are compositor-friendly,
+   but the scale keyframes force periodic re-rasterization and keep
+   the GPU awake — measurable battery drain on mobile, and genuinely
+   unpleasant for anyone with vestibular sensitivity.
+
+   Honors the OS-level setting. Zero effect on everyone else.
+   The reveal/hero entrance animations start at opacity:0, so they
+   are pinned to their END state rather than simply disabled —
+   otherwise the content would never become visible.
+═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .stmp-hero-grid,
+  .stmp-hero-orb,
+  .stmp-hero-bull,
+  .stmp-hero-ring,
+  .stmp-hero-scroll,
+  .stmp-scroll-line,
+  .stmp-marquee-track,
+  .stmp-marquee-content {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Entrance animations must land visible, not stay at opacity:0. */
+  .stmp-reveal,
+  .stmp-hero-content,
+  .stmp-hero-kicker,
+  .stmp-hero-headline span,
+  .stmp-hero-sub,
+  .stmp-hero-tagline,
+  .stmp-hero-proof,
+  .stmp-hero-buttons,
+  .stmp-hero-visual {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

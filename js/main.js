@@ -21,11 +21,76 @@
     APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec',
     EMAIL_PARTS: ['charge', 'stampedeusa.com'],  // obfuscated — joined at runtime
     EMAIL_DISPLAY: 'Charge@StampedeUSA.com',     // branded display casing
-    PHONE: 'tel:+17033014733',
-    SMS: 'sms:+17033014733',                     // text-capable burner line
+    PHONE: 'tel:+18132142292',
+    SMS: 'sms:+18132142292',
     NAV_HEIGHT: 80,
     STICKY_BAR_THRESHOLD: 400
   };
+
+  /* ══════════════════════════════════════════════════════════
+     LEAD SUBMISSION — shared transport
+
+     no-cors fetch RESOLVES with an opaque response once the request
+     is delivered, and REJECTS only on genuine network failure
+     (offline, DNS filtering, blocked domain). Earlier code caught and
+     discarded that rejection, then revealed the success view on a
+     blind timer — so a visitor whose POST never left the device was
+     still told "You're booked." Those leads were lost silently.
+     Success is now keyed off the promise.
+
+     Caveat worth knowing: an opaque resolve proves delivery, not
+     server-side success. It cannot detect a 500 or a broken
+     deployment — the server guards against those separately.
+  ══════════════════════════════════════════════════════════ */
+  var PERF = (window.performance && window.performance.now)
+    ? window.performance
+    : { now: function () { return Date.now(); } };
+
+  // Stamp a form the first time it's touched. The server compares this
+  // against a floor to separate humans (seconds) from replay scripts
+  // (instant). Invisible to real users — no field, no challenge.
+  function trackFormTiming(form) {
+    if (!form || form._stmpTimed) return;
+    form._stmpTimed = true;
+    var stamp = function () {
+      if (!form._stmpOpenedAt) form._stmpOpenedAt = PERF.now();
+    };
+    form.addEventListener('focusin', stamp, { once: true });
+    form.addEventListener('input', stamp, { once: true });
+  }
+
+  function postLead(payload, form) {
+    if (form && form._stmpOpenedAt) {
+      payload.ttf_ms = Math.round(PERF.now() - form._stmpOpenedAt);
+    }
+    return fetch(CONFIG.APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // Shown when the submission genuinely could not be delivered, so the
+  // prospect has a way to reach us instead of a false confirmation.
+  function showSendFailure(container, submitBtn, originalLabel) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel || 'Try again';
+    }
+    if (!container) return;
+    var existing = container.querySelector('.stmp-send-error');
+    if (existing) { existing.hidden = false; return; }
+
+    var note = document.createElement('p');
+    note.className = 'stmp-send-error';
+    note.setAttribute('role', 'alert');
+    note.style.cssText = 'color:#EF4444;font-size:0.9rem;margin-top:12px;line-height:1.5;';
+    note.innerHTML = 'That didn\'t send — your connection dropped it. ' +
+      'Please try again, or reach us directly at ' +
+      '<a href="tel:+18132142292" style="color:inherit;text-decoration:underline;">(813) 214-2292</a>.';
+    container.appendChild(note);
+  }
 
   /* ══════════════════════════════════════════════════════════
      EMAIL OBFUSCATION
@@ -269,12 +334,13 @@
 
     // FORM SUBMISSION
     if (auditForm) {
+      trackFormTiming(auditForm);
       auditForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
         // Honeypot: if the hidden field is populated, it's a bot.
         // Show fake success, don't send, don't tell.
-        var hp = auditForm.querySelector('input[name="website_confirm"]');
+        var hp = auditForm.querySelector('input[name="contact_ref"], input[name="website_confirm"]');
         if (hp && hp.value) {
           if (formView) formView.hidden = true;
           if (successView) successView.hidden = false;
@@ -303,6 +369,12 @@
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
           emailEl.focus();
           emailEl.style.borderColor = '#EF4444';
+          // Clear the error styling once they start correcting it —
+          // without this the field stays red through a fixed address
+          // and even through a successful resubmit.
+          emailEl.addEventListener('input', function () {
+            emailEl.style.borderColor = '';
+          }, { once: true });
           return;
         }
 
@@ -331,20 +403,14 @@
           });
         }
 
-        fetch(CONFIG.APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(payload)
-        }).catch(function () {
-          // no-cors mode always throws — this is expected
-        });
-
-        // Show success after brief delay (no-cors gives no confirmation)
-        setTimeout(function () {
-          if (formView) formView.hidden = true;
-          if (successView) successView.hidden = false;
-        }, 700);
+        postLead(payload, auditForm)
+          .then(function () {
+            if (formView) formView.hidden = true;
+            if (successView) successView.hidden = false;
+          })
+          .catch(function () {
+            showSendFailure(auditForm, submitBtn, 'Send it over');
+          });
       });
     }
 
@@ -359,11 +425,12 @@
     var form = document.getElementById('footerNewsletter');
     if (!form) return;
 
+    trackFormTiming(form);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       // Honeypot: populated hidden field = bot. Fake success, silent drop.
-      var hp = this.querySelector('input[name="website_confirm"]');
+      var hp = this.querySelector('input[name="contact_ref"], input[name="website_confirm"]');
       if (hp && hp.value) {
         var btnEl = this.querySelector('button');
         if (btnEl) {
@@ -397,25 +464,24 @@
         });
       }
 
-      fetch(CONFIG.APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          form_type: 'newsletter',
-          email: email,
-          page_url: location.href
+      postLead({
+        form_type: 'newsletter',
+        email: email,
+        page_url: location.href
+      }, form)
+        .then(function () {
+          btn.textContent = 'Done!';
+          emailInput.value = '';
+          setTimeout(function () {
+            btn.textContent = 'Charge';
+            btn.disabled = false;
+          }, 2500);
         })
-      }).catch(function () {});
-
-      setTimeout(function () {
-        btn.textContent = 'Done!';
-        emailInput.value = '';
-        setTimeout(function () {
-          btn.textContent = 'Charge';
+        .catch(function () {
+          btn.textContent = 'Try again';
           btn.disabled = false;
-        }, 2500);
-      }, 600);
+          emailInput.style.borderColor = '#EF4444';
+        });
     });
   }
 
@@ -442,6 +508,10 @@
           phone_number: href.replace('sms:', '')
         });
       } else if (href.match(/\.pdf($|\?)/i)) {
+        // The resources gate cancels locked clicks to open the email
+        // modal instead — no file is served, so counting those as
+        // downloads inflated every first-time visitor's first click.
+        if (e.defaultPrevented) return;
         gtag('event', 'file_download', {
           page_location: location.href,
           file_name: href.split('/').pop().split('?')[0],
@@ -535,15 +605,35 @@
     var dots = root.querySelectorAll('.stmp-sched-step-dot');
     var lines = root.querySelectorAll('.stmp-sched-step-line');
 
-    var today = new Date();
-    today.setHours(0,0,0,0);
+    // Every slot on this scheduler is Eastern ("All times Eastern (ET)"),
+    // so all date/time reasoning must happen in ET — not in whatever
+    // zone the visitor happens to be in. Filtering ET slots against a
+    // local clock offered Pacific visitors times that had already
+    // passed, and told London visitors "no times" while the ET
+    // afternoon was wide open.
+    function nowET() {
+      return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    }
+
+    // Recomputed per render, not captured once: a tab left open across
+    // midnight otherwise keeps treating yesterday as "today".
+    function startOfTodayET() {
+      var d = nowET();
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function horizonFrom(startDay) {
+      var h = new Date(startDay);
+      h.setDate(startDay.getDate() + 56);  // 8 weeks — generous and honest
+      return h;
+    }
+
+    var today = startOfTodayET();
     var viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     var selectedDate = null;  // Date
     var selectedTime = null;  // string
-
-    // How far forward can a user book. 8 weeks is generous and honest.
-    var bookingHorizon = new Date(today);
-    bookingHorizon.setDate(today.getDate() + 56);
+    var bookingHorizon = horizonFrom(today);
 
     function goToStep(name) {
       steps.forEach(function(s) { s.hidden = s.getAttribute('data-step') !== name; });
@@ -570,6 +660,10 @@
     }
 
     function renderCalendar() {
+      // Refresh the ET day boundary so a long-open tab stays accurate.
+      today = startOfTodayET();
+      bookingHorizon = horizonFrom(today);
+
       calTitle.textContent = MONTHS[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
       calGrid.innerHTML = '';
 
@@ -640,7 +734,11 @@
 
     function renderTimes() {
       timeGrid.innerHTML = '';
-      var now = new Date();
+      // ET, not local: slot labels are Eastern, so "has it passed?" has
+      // to be asked in Eastern too. Comparing against the visitor's own
+      // clock offered Pacific users slots that were hours gone.
+      var now = nowET();
+      today = startOfTodayET();
       var isToday = sameDay(selectedDate, today);
       var bufferMs = 30 * 60 * 1000;  // 30-minute lead-time buffer
       var rendered = 0;
@@ -705,11 +803,12 @@
       goToStep('success');
     }
 
+    trackFormTiming(form);
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       // Honeypot: silent fake success
-      var hp = form.querySelector('input[name="website_confirm"]');
+      var hp = form.querySelector('input[name="contact_ref"], input[name="website_confirm"]');
       if (hp && hp.value) { showSuccess(); return; }
 
       function clearErrors() {
@@ -764,14 +863,11 @@
         });
       }
 
-      fetch(CONFIG.APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-      }).catch(function() {});
-
-      setTimeout(showSuccess, 700);
+      postLead(payload, form)
+        .then(showSuccess)
+        .catch(function () {
+          showSendFailure(form, submitBtn, 'Confirm the call →');
+        });
     });
 
     // Initial render
