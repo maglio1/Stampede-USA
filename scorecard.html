@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Marketing Scorecard | Stampede USA Tampa</title>
+  <meta name="description" content="Score your marketing in 60 seconds. Twelve questions, no signup, instant report. See exactly where you're losing leads and what to fix first. Built for Tampa Bay small businesses.">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <link rel="canonical" href="https://www.stampedeusa.com/scorecard.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stampede USA">
+  <meta property="og:title" content="Free Marketing Scorecard — No Signup">
+  <meta property="og:description" content="Twelve questions. Instant score. See where your leads are leaking and what to fix first.">
+  <meta property="og:url" content="https://www.stampedeusa.com/scorecard.html">
+  <meta property="og:image" content="https://www.stampedeusa.com/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Marketing Scorecard — No Signup">
+  <meta name="twitter:description" content="Twelve questions. Instant score. No email required.">
+  <meta name="twitter:image" content="https://www.stampedeusa.com/assets/images/og-image.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.stampedeusa.com/scorecard.html#app",
+        "name": "Stampede Marketing Scorecard",
+        "url": "https://www.stampedeusa.com/scorecard.html",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any (web browser)",
+        "browserRequirements": "Requires JavaScript",
+        "description": "A free 12-question self-assessment that scores a small business across four areas — getting found, converting visitors, responding to leads, and measuring results — then returns a prioritized report of what to fix first.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "provider": {"@id": "https://www.stampedeusa.com/#business"},
+        "featureList": [
+          "Instant marketing score out of 100",
+          "Four pillar breakdown: Get Found, Convert, Respond, Measure",
+          "Prioritized list of the biggest revenue leaks",
+          "Industry benchmark comparisons",
+          "No signup or email required to see results"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stampedeusa.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Marketing Scorecard", "item": "https://www.stampedeusa.com/scorecard.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
+
+  <style>
+    /* ── SCORECARD (page-scoped; kept inline to avoid a blocking request) ── */
+    .sc-wrap{max-width:860px;margin:0 auto}
+    .sc-progress-rail{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:0 0 8px}
+    .sc-progress-fill{height:100%;width:0;background:var(--stmp-red,#E63946);transition:width .35s cubic-bezier(.4,0,.2,1)}
+    .sc-progress-label{font-size:.82rem;opacity:.65;margin:0 0 26px;letter-spacing:.04em}
+
+    .sc-q{animation:scIn .35s ease both}
+    @keyframes scIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .sc-q-kicker{font-family:Oswald,sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+    .sc-q-title{font-family:Oswald,sans-serif;font-size:clamp(1.35rem,3.2vw,1.9rem);line-height:1.25;margin:0 0 6px}
+    .sc-q-help{font-size:.95rem;opacity:.7;margin:0 0 22px}
+
+    .sc-opts{display:grid;gap:10px;margin:0 0 26px}
+    .sc-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border-radius:12px;
+      border:1.5px solid rgba(255,255,255,.13);background:rgba(255,255,255,.03);color:inherit;font:inherit;font-size:1rem;
+      cursor:pointer;transition:border-color .16s,background .16s,transform .16s}
+    .sc-opt:hover{border-color:var(--stmp-red,#E63946);background:rgba(230,57,70,.07);transform:translateX(3px)}
+    .sc-opt:focus-visible{outline:2px solid var(--stmp-red,#E63946);outline-offset:2px}
+    .sc-opt[aria-pressed="true"]{border-color:var(--stmp-red,#E63946);background:rgba(230,57,70,.12)}
+    .sc-opt-key{flex:0 0 26px;height:26px;border-radius:6px;display:grid;place-items:center;font-family:Oswald,sans-serif;
+      font-size:.8rem;background:rgba(255,255,255,.08);opacity:.75}
+
+    .sc-back{background:none;border:none;color:inherit;opacity:.6;font:inherit;font-size:.9rem;cursor:pointer;padding:6px 0}
+    .sc-back:hover{opacity:1}
+
+    /* ── REPORT ── */
+    .sc-report{animation:scIn .45s ease both}
+    .sc-report-doc{border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)}
+    .sc-doc-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+      padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
+    .sc-doc-brand{display:flex;align-items:center;gap:10px;font-family:Oswald,sans-serif;letter-spacing:.06em;font-size:.95rem}
+    .sc-doc-meta{font-size:.8rem;opacity:.62;text-align:right;line-height:1.5}
+
+    .sc-hero-score{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:30px 24px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sc-dial{position:relative;flex:0 0 132px;width:132px;height:132px}
+    .sc-dial svg{transform:rotate(-90deg)}
+    .sc-dial-num{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1}
+    .sc-dial-num strong{display:block;font-family:Bebas Neue,sans-serif;font-size:2.9rem;letter-spacing:.02em}
+    .sc-dial-num span{font-size:.7rem;opacity:.6;letter-spacing:.1em}
+    .sc-verdict{flex:1;min-width:240px}
+    .sc-verdict h3{font-family:Oswald,sans-serif;font-size:1.5rem;margin:0 0 8px}
+    .sc-verdict p{margin:0;opacity:.78;font-size:.98rem;line-height:1.6}
+
+    .sc-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;padding:26px 24px;
+      border-bottom:1px solid rgba(255,255,255,.1)}
+    .sc-pillar-name{display:flex;justify-content:space-between;font-family:Oswald,sans-serif;font-size:.9rem;margin-bottom:7px}
+    .sc-pillar-rail{height:7px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+    .sc-pillar-fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .sc-pillar-note{font-size:.78rem;opacity:.6;margin-top:7px;line-height:1.45}
+
+    .sc-leaks{padding:26px 24px}
+    .sc-leaks h4{font-family:Oswald,sans-serif;font-size:1.15rem;margin:0 0 4px}
+    .sc-leaks-sub{font-size:.88rem;opacity:.65;margin:0 0 20px}
+    .sc-leak{display:flex;gap:16px;padding:18px 0;border-top:1px solid rgba(255,255,255,.09)}
+    .sc-leak-rank{flex:0 0 32px;height:32px;border-radius:8px;display:grid;place-items:center;background:rgba(230,57,70,.15);
+      color:var(--stmp-red,#E63946);font-family:Bebas Neue,sans-serif;font-size:1.2rem}
+    .sc-leak-body h5{font-family:Oswald,sans-serif;font-size:1.02rem;margin:0 0 6px}
+    .sc-leak-body p{margin:0 0 8px;font-size:.93rem;opacity:.78;line-height:1.6}
+    .sc-bench{display:block;font-size:.83rem;opacity:.62;border-left:2px solid rgba(230,57,70,.5);padding-left:11px;line-height:1.55}
+
+    .sc-cta-card{margin-top:26px;padding:26px 24px;border:1px solid rgba(230,57,70,.35);border-radius:14px;background:rgba(230,57,70,.06)}
+    .sc-cta-card h4{font-family:Oswald,sans-serif;font-size:1.2rem;margin:0 0 8px}
+    .sc-cta-card > p{margin:0 0 18px;opacity:.8;font-size:.95rem;line-height:1.6}
+    .sc-mini-form{display:grid;gap:12px}
+    .sc-mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:640px){.sc-mini-row{grid-template-columns:1fr}.sc-hero-score{gap:20px}}
+    .sc-mini-form input{width:100%;padding:12px 14px;border-radius:9px;border:1.5px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.25);color:inherit;font:inherit}
+    .sc-mini-form input:focus{outline:none;border-color:var(--stmp-red,#E63946)}
+    .sc-fineprint{font-size:.8rem;opacity:.55;margin:12px 0 0}
+    .sc-restart{margin-top:20px;text-align:center}
+
+    @media print{
+      #stmp-nav,#stmp-mobile-bar,#stmp-footer,.sc-cta-card,.sc-restart,.page-hero-orb{display:none!important}
+      .sc-report-doc{border-color:#999}
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only">Skip to content</a>
+
+<nav id="stmp-nav" aria-label="Main navigation">
+  <div class="stmp-nav-container">
+    <a href="index.html" class="stmp-nav-logo" aria-label="Stampede USA Home">
+      <img src="assets/images/favicon.png" alt="Stampede USA" width="44" height="44" loading="eager" style="height:44px;width:auto;">
+      <span class="stmp-nav-logo-text">STAMPEDE <span>USA</span></span>
+    </a>
+    <ul class="stmp-nav-links" role="list">
+      <li><a href="index.html#stmp-services">What We Do</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="scorecard.html" aria-current="page">Scorecard</a></li>
+      <li><a href="index.html#stmp-about">Who We Are</a></li>
+      <li><a href="index.html#stmp-method">The Method</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="tel:+18132142292" class="stmp-nav-phone" aria-label="Call Stampede USA">(813) 214-2292</a></li>
+      <li><a href="sms:+18132142292" class="stmp-nav-phone" aria-label="Text Stampede USA">Text us</a></li>
+      <li><a href="index.html#stmp-audit" class="stmp-nav-cta">Free Website Audit</a></li>
+    </ul>
+    <button class="stmp-nav-toggle" id="stmpNavToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="stmp-mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div id="stmp-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button class="stmp-mobile-menu-close" id="stmpMobileClose" aria-label="Close navigation menu">&times;</button>
+  <div class="stmp-mobile-menu-cta"><a href="index.html#stmp-audit">Free Website Audit</a></div>
+  <ul role="list">
+    <li><a href="index.html#stmp-services">What We Do</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="scorecard.html">Scorecard</a></li>
+    <li><a href="index.html#stmp-about">Who We Are</a></li>
+    <li><a href="index.html#stmp-method">The Method</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="tel:+18132142292">(813) 214-2292</a></li>
+    <li><a href="sms:+18132142292">Text us</a></li>
+  </ul>
+</div>
+
+<main id="main-content">
+
+  <section class="page-hero">
+    <div class="page-hero-orb page-hero-orb-1" aria-hidden="true"></div>
+    <div class="page-hero-orb page-hero-orb-2" aria-hidden="true"></div>
+    <div class="stmp-container">
+      <div class="page-hero-kicker">Free &bull; No Signup &bull; 60 Seconds</div>
+      <h1 class="page-hero-title">Marketing Scorecard.<br><span class="page-hero-accent">Find the leak.</span></h1>
+      <p class="page-hero-sub">Twelve questions about how you actually get and handle customers. You get a scored report showing where money is leaking out and what to fix first. No email required to see it.</p>
+    </div>
+  </section>
+
+  <section class="stmp-section" style="padding-top:10px">
+    <div class="stmp-container">
+      <div class="sc-wrap">
+
+        <!-- QUIZ -->
+        <div id="scQuiz">
+          <div class="sc-progress-rail" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" aria-label="Scorecard progress">
+            <div class="sc-progress-fill" id="scProgressFill"></div>
+          </div>
+          <p class="sc-progress-label" id="scProgressLabel">Question 1 of 12</p>
+          <div id="scQuestionMount" aria-live="polite"></div>
+          <button type="button" class="sc-back" id="scBack" hidden>&#8249; Back</button>
+        </div>
+
+        <!-- REPORT -->
+        <div id="scReport" class="sc-report" hidden></div>
+
+        <!-- STATIC CONTENT — crawlable, and the real answer for anyone
+             (human or AI agent) who never runs the interactive version. -->
+        <div id="scStatic" style="margin-top:56px">
+          <h2 class="stmp-section-title" style="font-size:clamp(1.4rem,3vw,2rem)">What this scorecard measures</h2>
+          <p style="opacity:.78;line-height:1.7;max-width:70ch">Most small-business marketing problems are not creative problems. They are plumbing problems. The scorecard checks the four places money actually leaks, in the order that matters:</p>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-top:26px">
+            <div>
+              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">1. Get Found</h3>
+              <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Your Google Business Profile, your review count, and whether anyone is actually landing on your site. For a local service business this is usually the largest single gap, and the cheapest to close.</p>
+            </div>
+            <div>
+              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">2. Convert</h3>
+              <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Whether a stranger landing on your site understands what to do in about five seconds, and whether the page loads fast enough on a phone that they stick around to find out.</p>
+            </div>
+            <div>
+              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">3. Respond</h3>
+              <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">How fast you reply to a new lead, and what happens when someone doesn't answer the first time. This is the most commonly ignored and most immediately profitable area on the list.</p>
+            </div>
+            <div>
+              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">4. Measure</h3>
+              <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Whether you can tell which channel produced which customer, and what a lead costs you. Without this, every other decision is a guess with your money attached.</p>
+            </div>
+          </div>
+
+          <h2 class="stmp-section-title" style="font-size:clamp(1.4rem,3vw,2rem);margin-top:48px">Common questions</h2>
+          <div style="max-width:72ch">
+            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">Do I have to give you my email?</h3>
+            <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">No. The full score and the full report appear on screen when you finish. There is an option at the bottom to have it sent to you along with a walkthrough, but nothing is hidden behind it.</p>
+
+            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">How accurate is a self-assessment?</h3>
+            <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">It is as accurate as your answers, which is the honest limit of any tool that does not have access to your analytics. It is very good at finding which of the four areas is your weakest, which is the decision that matters most. Pulling real numbers off your site and ad accounts is what the free audit does.</p>
+
+            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">What do the benchmarks come from?</h3>
+            <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">They are widely published industry figures for small and local businesses, included so a number has some context instead of floating on its own. They describe the general pattern, not a promise about your business specifically.</p>
+
+            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">Who is this for?</h3>
+            <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">Owner-operated and small-team businesses, mostly in the Tampa Bay area: home services, contractors, professional services, health and wellness, retail, restaurants, auto, and real estate. It assumes you do not have a marketing department, because most of our clients don't.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="stmp-footer">
+  <div class="stmp-container">
+    <div class="stmp-footer-top">
+      <div class="stmp-footer-brand">
+        <div class="stmp-footer-logo-lockup">
+          <img src="assets/images/favicon.png" alt="Stampede USA" width="52" height="52" loading="lazy" style="height:52px;width:auto;">
+          <span class="stmp-footer-logo-text">STAMPEDE <span>USA</span></span>
+        </div>
+        <img class="stmp-footer-tagline-img" src="assets/images/tagline.webp" alt="Built to Charge Ahead" width="440" height="75" loading="lazy">
+        <a href="#" class="stmp-footer-email" id="stmp-footer-email-link"><span id="stmp-email-display"></span></a>
+        <a href="tel:+18132142292" class="stmp-footer-phone">(813) 214-2292</a>
+        <a href="sms:+18132142292" class="stmp-footer-phone" aria-label="Text Stampede USA">Text us</a>
+        <div class="stmp-footer-social" aria-label="Stampede USA social media">
+          <a href="https://www.facebook.com/RunWithStampede" target="_blank" rel="noopener noreferrer" aria-label="Stampede USA on Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/stampedeusa/" target="_blank" rel="noopener noreferrer" aria-label="Stampede USA on LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="stmp-footer-column">
+        <h3 class="stmp-footer-col-heading">Services</h3>
+        <ul role="list">
+          <li><a href="index.html#stmp-services">Website Design &amp; Optimization</a></li>
+          <li><a href="index.html#stmp-services">AI Automation &amp; Lead Systems</a></li>
+          <li><a href="index.html#stmp-services">Google &amp; Social Ads</a></li>
+          <li><a href="index.html#stmp-services">Local SEO</a></li>
+          <li><a href="index.html#stmp-services">Marketing Analytics</a></li>
+        </ul>
+      </div>
+      <div class="stmp-footer-column">
+        <h3 class="stmp-footer-col-heading">Company</h3>
+        <ul role="list">
+          <li><a href="index.html#stmp-about">About Us</a></li>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="scorecard.html">Scorecard</a></li>
+          <li><a href="index.html#stmp-strategy">Book a Strategy Call</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="stmp-footer-column stmp-footer-newsletter">
+        <h3 class="stmp-footer-col-heading">Newsletter</h3>
+        <p>Marketing tactics and tools for Tampa Bay small businesses, straight to your inbox.</p>
+        <form class="stmp-newsletter-form" id="footerNewsletter" novalidate>
+          <input type="text" name="contact_ref" tabindex="-1" autocomplete="off" aria-hidden="true" class="stmp-alt-field">
+          <label for="newsletterEmail" class="sr-only">Email address</label>
+          <input type="email" id="newsletterEmail" name="email" placeholder="Your email" required autocomplete="email">
+          <button type="submit">Charge</button>
+        </form>
+      </div>
+    </div>
+    <div class="stmp-footer-bottom">
+      <p class="stmp-footer-copyright">&copy; 2026 Stampede USA LLC. All Rights Reserved. Tampa Bay, FL</p>
+      <div class="stmp-footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="stmp-mobile-bar" role="navigation" aria-label="Quick contact">
+  <a href="tel:+18132142292" class="stmp-mobile-bar-btn" aria-label="Call Stampede USA">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <span>Call</span>
+  </a>
+  <a href="sms:+18132142292" class="stmp-mobile-bar-btn" aria-label="Text Stampede USA">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span>Text</span>
+  </a>
+  <a href="index.html#stmp-audit" class="stmp-mobile-bar-btn stmp-mobile-bar-btn--cta">
+    <span>Free Audit</span>
+  </a>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH5_3OAvMgQuBhQ3ovT8M5s51SeqfqFgtsmWWvmpkfq6OoC0VhDQuWq3tKC1KXl8KS/exec';
+
+  // Stamped at page load, matching the rest of the site. Measuring from
+  // first interaction would read near-zero for a fast user and the
+  // server would treat a real person as automated.
+  var pageLoadedAt = (window.performance && window.performance.now)
+    ? window.performance.now() : null;
+
+  // Pillar weights total 100: Get Found 30, Convert 20, Respond 20, Measure 30.
+  var QUESTIONS = [
+    { id:'industry', pillar:null, kicker:'First, some context',
+      q:'What kind of business is this?',
+      help:'Only used to make the wording of your report fit.',
+      opts:[
+        {t:'Home services (plumbing, HVAC, electrical, roofing)', v:0},
+        {t:'Contractor or landscaping', v:0},
+        {t:'Professional services (legal, accounting, consulting)', v:0},
+        {t:'Health and wellness', v:0},
+        {t:'Restaurant or hospitality', v:0},
+        {t:'Retail or e-commerce', v:0},
+        {t:'Auto services', v:0},
+        {t:'Real estate', v:0},
+        {t:'Something else', v:0}
+      ]},
+
+    { id:'gbp', pillar:'found', max:12, kicker:'Get Found',
+      q:'What shape is your Google Business Profile in?',
+      help:'The map listing that shows up when someone searches your service near them.',
+      opts:[
+        {t:'Claimed, and I post or update it most months', v:12},
+        {t:'Claimed, but I rarely touch it', v:7},
+        {t:'It exists but I never claimed it', v:2},
+        {t:'I don’t have one, or I’m not sure', v:0}
+      ]},
+
+    { id:'reviews', pillar:'found', max:10, kicker:'Get Found',
+      q:'How many Google reviews do you have?',
+      help:'Reviews on your Business Profile, not Facebook or Yelp.',
+      opts:[
+        {t:'50 or more', v:10},
+        {t:'20 to 49', v:7},
+        {t:'5 to 19', v:4},
+        {t:'Under 5', v:1},
+        {t:'None yet', v:0}
+      ]},
+
+    { id:'traffic', pillar:'found', max:8, kicker:'Get Found',
+      q:'Roughly how many people visit your website each month?',
+      help:'A rough guess is fine.',
+      opts:[
+        {t:'More than 2,000', v:8},
+        {t:'500 to 2,000', v:6},
+        {t:'100 to 500', v:4},
+        {t:'Under 100', v:1},
+        {t:'No idea', v:0}
+      ]},
+
+    { id:'clarity', pillar:'convert', max:12, kicker:'Convert',
+      q:'If a stranger lands on your homepage, is the next step obvious within five seconds?',
+      help:'One clear thing to do, visible without scrolling.',
+      opts:[
+        {t:'Yes — one clear action, right at the top', v:12},
+        {t:'Sort of — there’s a contact form somewhere', v:6},
+        {t:'Not really, it’s mostly information', v:2},
+        {t:'I honestly don’t know', v:0}
+      ]},
+
+    { id:'speed', pillar:'convert', max:8, kicker:'Convert',
+      q:'How fast does your site load on a phone, on cell data?',
+      help:'Open it on your phone away from wifi. Count the seconds.',
+      opts:[
+        {t:'Almost instantly', v:8},
+        {t:'A couple of seconds', v:5},
+        {t:'Noticeably slow', v:1},
+        {t:'Never checked', v:0}
+      ]},
+
+    { id:'response', pillar:'respond', max:12, kicker:'Respond',
+      q:'When a new lead comes in, how fast do you usually reply?',
+      help:'Be honest — the realistic average, not your best day.',
+      opts:[
+        {t:'Within 5 minutes', v:12},
+        {t:'Within an hour', v:8},
+        {t:'Same day', v:4},
+        {t:'Next day or later', v:1},
+        {t:'It depends — there’s no system', v:0}
+      ]},
+
+    { id:'followup', pillar:'respond', max:8, kicker:'Respond',
+      q:'If they don’t answer the first time, what happens next?',
+      help:'',
+      opts:[
+        {t:'An automated sequence keeps following up', v:8},
+        {t:'I follow up manually a few times', v:5},
+        {t:'One try, then they go cold', v:2},
+        {t:'Nothing happens', v:0}
+      ]},
+
+    { id:'tracking', pillar:'measure', max:12, kicker:'Measure',
+      q:'Can you tell which calls and form fills came from where?',
+      help:'Conversion tracking — knowing that this customer came from that ad or search.',
+      opts:[
+        {t:'Yes — calls and forms both tracked to source', v:12},
+        {t:'Forms only', v:7},
+        {t:'Analytics is installed but nothing is configured', v:3},
+        {t:'No, or not sure', v:0}
+      ]},
+
+    { id:'source', pillar:'measure', max:8, kicker:'Measure',
+      q:'Where do most of your customers actually come from right now?',
+      help:'',
+      opts:[
+        {t:'Google search or the map listing', v:8},
+        {t:'Paid ads', v:7},
+        {t:'Social media', v:5},
+        {t:'Referrals and word of mouth', v:4},
+        {t:'Honestly, I’m not sure', v:0}
+      ]},
+
+    { id:'cpl', pillar:'measure', max:10, kicker:'Measure',
+      q:'Do you know what one lead costs you?',
+      help:'Marketing spend divided by leads produced.',
+      opts:[
+        {t:'Yes, broken out by channel', v:10},
+        {t:'A rough overall number', v:5},
+        {t:'No', v:0}
+      ]},
+
+    { id:'spend', pillar:null, kicker:'Last one',
+      q:'What are you spending on marketing each month?',
+      help:'Ads, tools, agencies, everything.',
+      opts:[
+        {t:'More than $5,000', v:0},
+        {t:'$2,000 to $5,000', v:0},
+        {t:'$500 to $2,000', v:0},
+        {t:'Under $500', v:0},
+        {t:'Nothing right now', v:0}
+      ]}
+  ];
+
+  var PILLARS = {
+    found:   { label:'Get Found', max:30 },
+    convert: { label:'Convert',   max:20 },
+    respond: { label:'Respond',   max:20 },
+    measure: { label:'Measure',   max:30 }
+  };
+
+  // Each leak: shown when that answer scores at or below `when`.
+  // `bench` is a widely published industry figure, included for context.
+  var LEAKS = {
+    response: {
+      title:'Your response time is costing you the most',
+      body:'Speed beats polish. A lead that gets a reply in minutes is a different lead than one that waits until tomorrow — same person, same ad, completely different outcome. This is usually the fastest money on the table because it costs nothing to fix.',
+      bench:'Industry benchmark: replying within 5 minutes rather than 30 makes a lead roughly 20x more likely to qualify, and about half of buyers go with whoever answers first.'
+    },
+    followup: {
+      title:'Leads go cold after one attempt',
+      body:'Most people don’t answer the first time. That isn’t rejection, it’s a Tuesday. Without a follow-up sequence you are paying full price to generate a lead and then abandoning it after one try.',
+      bench:'Industry benchmark: roughly half of leads never receive a second follow-up attempt, and most sales that do close take five or more touches.'
+    },
+    gbp: {
+      title:'Your Google Business Profile is underused',
+      body:'For a local service business this is usually the single largest gap and the cheapest to close. The map pack sits above the regular results, and an unclaimed or dormant profile simply doesn’t compete for it.',
+      bench:'Industry benchmark: the local map results capture a large share of clicks on "near me" and service-plus-city searches — traffic that never reaches page one of the blue links.'
+    },
+    reviews: {
+      title:'You don’t have enough reviews to win the click',
+      body:'Review count and recency are among the few ranking factors you directly control, and they do double duty: they move you up the map pack and they close the sale before you ever speak. A systematic ask beats hoping people remember.',
+      bench:'Industry benchmark: consumers read roughly ten reviews before trusting a local business, and star rating is consistently ranked among the top factors in choosing one.'
+    },
+    tracking: {
+      title:'You can’t tell what’s working',
+      body:'Without conversion tracking, every budget decision is a guess. You cannot cut the channel that’s wasting money because you cannot identify it, and you cannot scale the one that’s working for the same reason. This is the fix that makes every other fix measurable.',
+      bench:'Practical benchmark: for most small local budgets, a minority of channels produce the majority of real customers — the problem is that untracked accounts can’t tell which minority.'
+    },
+    clarity: {
+      title:'Your homepage doesn’t point anywhere',
+      body:'A visitor decides in a few seconds whether you’re worth the effort. If the page opens with history and services instead of one obvious next step, you are paying for traffic that bounces politely.',
+      bench:'Industry benchmark: visitors form a first impression of a page in well under a second, and pages built around a single clear action consistently convert better than pages offering several.'
+    },
+    speed: {
+      title:'Your site is too slow on a phone',
+      body:'Most local searches happen on a phone, frequently on cell data. Every extra second costs you a share of the people who were ready to call. Speed is not a vanity metric here — it is the front door.',
+      bench:'Industry benchmark: over half of mobile visits are abandoned when a page takes more than about three seconds to load.'
+    },
+    cpl: {
+      title:'You don’t know what a customer costs',
+      body:'Until you know your cost per lead and what share of leads become customers, you cannot tell a good month from a lucky one, and you cannot safely spend more. Knowing this number is what turns marketing from an expense into arithmetic.',
+      bench:'Practical benchmark: once cost per lead and close rate are known, the right budget stops being a debate and becomes a calculation.'
+    },
+    traffic: {
+      title:'Not enough people are seeing you',
+      body:'Everything downstream is capped by this. Conversion work on a page nobody reaches produces a better version of nothing. Worth fixing after the profile and review gaps, which are cheaper.',
+      bench:'Practical benchmark: for local service businesses, search and the map listing usually out-produce social by a wide margin for people ready to buy right now.'
+    },
+    source: {
+      title:'You’re not sure where customers come from',
+      body:'When the answer is a shrug, the budget is being set by habit. This is the same root cause as missing tracking, and it resolves the moment measurement is in place.',
+      bench:'Practical benchmark: owners who can name their top channel by number almost always spend less per customer than those who cannot.'
+    }
+  };
+
+  var idx = 0;
+  var answers = {};
+
+  var quiz = document.getElementById('scQuiz');
+  var mount = document.getElementById('scQuestionMount');
+  var report = document.getElementById('scReport');
+  var backBtn = document.getElementById('scBack');
+  var fill = document.getElementById('scProgressFill');
+  var label = document.getElementById('scProgressLabel');
+  var rail = quiz ? quiz.querySelector('[role="progressbar"]') : null;
+
+  if (!quiz || !mount || !report) return;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  function renderQuestion() {
+    var q = QUESTIONS[idx];
+    var pct = (idx / QUESTIONS.length) * 100;
+    fill.style.width = pct + '%';
+    label.textContent = 'Question ' + (idx + 1) + ' of ' + QUESTIONS.length;
+    if (rail) rail.setAttribute('aria-valuenow', String(idx));
+    backBtn.hidden = (idx === 0);
+
+    var html = '<div class="sc-q">' +
+      '<div class="sc-q-kicker">' + esc(q.kicker) + '</div>' +
+      '<h2 class="sc-q-title">' + esc(q.q) + '</h2>' +
+      (q.help ? '<p class="sc-q-help">' + esc(q.help) + '</p>' : '') +
+      '<div class="sc-opts" role="group" aria-label="' + esc(q.q) + '">';
+
+    q.opts.forEach(function (o, i) {
+      var sel = answers[q.id] && answers[q.id].t === o.t;
+      html += '<button type="button" class="sc-opt" data-i="' + i + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
+                '<span class="sc-opt-key" aria-hidden="true">' + String.fromCharCode(65 + i) + '</span>' +
+                '<span>' + esc(o.t) + '</span>' +
+              '</button>';
+    });
+
+    html += '</div></div>';
+    mount.innerHTML = html;
+
+    Array.prototype.forEach.call(mount.querySelectorAll('.sc-opt'), function (btn) {
+      btn.addEventListener('click', function () {
+        var o = q.opts[Number(btn.getAttribute('data-i'))];
+        answers[q.id] = { t: o.t, v: o.v, max: q.max || 0, pillar: q.pillar };
+        if (idx < QUESTIONS.length - 1) { idx++; renderQuestion(); }
+        else { buildReport(); }
+      });
+    });
+
+    var first = mount.querySelector('.sc-opt');
+    if (first && idx > 0) first.focus();
+  }
+
+  backBtn.addEventListener('click', function () {
+    if (idx > 0) { idx--; renderQuestion(); }
+  });
+
+  function pillarScores() {
+    var out = {};
+    Object.keys(PILLARS).forEach(function (k) { out[k] = 0; });
+    Object.keys(answers).forEach(function (id) {
+      var a = answers[id];
+      if (a.pillar) out[a.pillar] += a.v;
+    });
+    return out;
+  }
+
+  function gradeFor(score) {
+    if (score >= 85) return { g:'Strong', c:'#22C55E',
+      say:'You are running ahead of most businesses your size. The remaining gains are refinements, not rescues — the kind of thing that turns a good month into a repeatable one.' };
+    if (score >= 70) return { g:'Solid', c:'#84CC16',
+      say:'The foundation is there and working. One or two specific gaps are holding back results that the rest of your setup has already earned.' };
+    if (score >= 50) return { g:'Leaking', c:'#F59E0B',
+      say:'You are generating demand and losing a meaningful share of it on the way to a sale. The good news is that leaks like these are usually cheaper to plug than new demand is to buy.' };
+    if (score >= 30) return { g:'Losing money', c:'#F97316',
+      say:'Several parts of the chain are broken at once, which means money spent at the top is mostly draining out before it reaches you. Fix these in order and the same spend goes considerably further.' };
+    return { g:'Starting from scratch', c:'#EF4444',
+      say:'Almost nothing is set up to capture or measure demand right now. That sounds bad and it is, but it also means the first few fixes tend to produce the most visible change you will ever get.' };
+  }
+
+  function buildReport() {
+    var ps = pillarScores();
+    var total = ps.found + ps.convert + ps.respond + ps.measure;
+    var grade = gradeFor(total);
+
+    // Rank leaks by how much of that question's weight was missed.
+    var gaps = [];
+    Object.keys(answers).forEach(function (id) {
+      var a = answers[id];
+      if (!a.pillar || !LEAKS[id]) return;
+      var missed = (a.max || 0) - a.v;
+      if (missed > 0) gaps.push({ id: id, missed: missed });
+    });
+    gaps.sort(function (x, y) { return y.missed - x.missed; });
+    var top = gaps.slice(0, 3);
+
+    var now = new Date();
+    var dateStr = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    var industry = answers.industry ? answers.industry.t : 'Your business';
+
+    var circ = 2 * Math.PI * 56;
+    var dash = (total / 100) * circ;
+
+    var html = '<div class="sc-report-doc">';
+
+    html += '<div class="sc-doc-head">' +
+              '<div class="sc-doc-brand">' +
+                '<img src="assets/images/favicon.png" alt="" width="26" height="26" style="height:26px;width:auto">' +
+                '<span>STAMPEDE USA &bull; MARKETING SCORECARD</span>' +
+              '</div>' +
+              '<div class="sc-doc-meta">' + esc(industry) + '<br>' + esc(dateStr) + '</div>' +
+            '</div>';
+
+    html += '<div class="sc-hero-score">' +
+              '<div class="sc-dial">' +
+                '<svg width="132" height="132" viewBox="0 0 132 132" aria-hidden="true">' +
+                  '<circle cx="66" cy="66" r="56" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="11"/>' +
+                  '<circle cx="66" cy="66" r="56" fill="none" stroke="' + grade.c + '" stroke-width="11" stroke-linecap="round" ' +
+                    'stroke-dasharray="' + dash.toFixed(1) + ' ' + circ.toFixed(1) + '"/>' +
+                '</svg>' +
+                '<div class="sc-dial-num"><strong>' + total + '</strong><span>OF 100</span></div>' +
+              '</div>' +
+              '<div class="sc-verdict">' +
+                '<h3 style="color:' + grade.c + '">' + esc(grade.g) + '</h3>' +
+                '<p>' + esc(grade.say) + '</p>' +
+              '</div>' +
+            '</div>';
+
+    html += '<div class="sc-pillars">';
+    Object.keys(PILLARS).forEach(function (k) {
+      var p = PILLARS[k];
+      var pctv = Math.round((ps[k] / p.max) * 100);
+      var col = pctv >= 75 ? '#22C55E' : pctv >= 45 ? '#F59E0B' : '#EF4444';
+      var note = pctv >= 75 ? 'Working well.' : pctv >= 45 ? 'Partly in place.' : 'Biggest opportunity.';
+      html += '<div>' +
+                '<div class="sc-pillar-name"><span>' + p.label + '</span><span>' + ps[k] + '/' + p.max + '</span></div>' +
+                '<div class="sc-pillar-rail"><div class="sc-pillar-fill" style="width:' + pctv + '%;background:' + col + '"></div></div>' +
+                '<p class="sc-pillar-note">' + note + '</p>' +
+              '</div>';
+    });
+    html += '</div>';
+
+    html += '<div class="sc-leaks">' +
+              '<h4>Where the money is going</h4>' +
+              '<p class="sc-leaks-sub">Ranked by how much each one is costing you, based on your answers. Work top to bottom.</p>';
+
+    if (!top.length) {
+      html += '<p style="opacity:.8;font-size:.95rem;line-height:1.6">Nothing major is broken. At this point the work is optimization rather than repair — tightening what already runs.</p>';
+    } else {
+      top.forEach(function (g, i) {
+        var L = LEAKS[g.id];
+        html += '<div class="sc-leak">' +
+                  '<div class="sc-leak-rank">' + (i + 1) + '</div>' +
+                  '<div class="sc-leak-body">' +
+                    '<h5>' + esc(L.title) + '</h5>' +
+                    '<p>' + esc(L.body) + '</p>' +
+                    '<span class="sc-bench">' + esc(L.bench) + '</span>' +
+                  '</div>' +
+                '</div>';
+      });
+    }
+    html += '</div></div>';
+
+    // Capture — offered, never required. The report above is already complete.
+    html += '<div class="sc-cta-card">' +
+              '<h4>Want this pulled from your real numbers?</h4>' +
+              '<p>The report above is built from what you told us. The free audit is built from what your site, your Business Profile, and your ad accounts actually say — and it comes with 30 minutes to walk through it. No pitch deck.</p>' +
+              '<form class="sc-mini-form" id="scLeadForm" novalidate>' +
+                '<input type="text" name="contact_ref" tabindex="-1" autocomplete="off" aria-hidden="true" class="stmp-alt-field">' +
+                '<div class="sc-mini-row">' +
+                  '<div><label class="sr-only" for="scName">First name</label>' +
+                  '<input type="text" id="scName" name="firstName" placeholder="First name" autocomplete="given-name" required></div>' +
+                  '<div><label class="sr-only" for="scEmail">Email</label>' +
+                  '<input type="email" id="scEmail" name="email" placeholder="you@yourbusiness.com" autocomplete="email" required></div>' +
+                '</div>' +
+                '<div><label class="sr-only" for="scSite">Website</label>' +
+                '<input type="url" id="scSite" name="website" placeholder="https://yourbusiness.com" autocomplete="url"></div>' +
+                '<button type="submit" class="stmp-btn stmp-btn-primary" id="scLeadBtn">Send my report &amp; book the audit &rarr;</button>' +
+                '<p class="sc-fineprint">Your score is already yours — this just sends a copy and gets the real audit started. No spam, unsubscribe anytime.</p>' +
+              '</form>' +
+            '</div>';
+
+    html += '<div class="sc-restart"><button type="button" class="sc-back" id="scRestart">Start over</button></div>';
+
+    quiz.hidden = true;
+    report.hidden = false;
+    report.innerHTML = html;
+    report.scrollIntoView({ behavior:'smooth', block:'start' });
+
+    if (window.gtag) {
+      window.gtag('event', 'scorecard_completed', { score: total, grade: grade.g });
+    }
+
+    document.getElementById('scRestart').addEventListener('click', function () {
+      idx = 0; answers = {};
+      report.hidden = true; quiz.hidden = false;
+      renderQuestion();
+      quiz.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    wireLeadForm(total, grade.g, ps);
+  }
+
+  function wireLeadForm(total, gradeName, ps) {
+    var form = document.getElementById('scLeadForm');
+    var btn = document.getElementById('scLeadBtn');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.querySelector('[name="contact_ref"]').value) return;   // honeypot
+
+      var email = form.querySelector('#scEmail');
+      if (!email.value || email.value.indexOf('@') < 1) {
+        email.style.borderColor = '#EF4444';
+        email.addEventListener('input', function () { email.style.borderColor = ''; }, { once:true });
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      // A readable transcript of the answers, so the sheet row and the
+      // notification email carry the full context of the conversation.
+      var lines = ['SCORECARD ' + total + '/100 (' + gradeName + ')'];
+      lines.push('Get Found ' + ps.found + '/30 | Convert ' + ps.convert + '/20 | Respond ' + ps.respond + '/20 | Measure ' + ps.measure + '/30');
+      QUESTIONS.forEach(function (q) {
+        if (answers[q.id]) lines.push('- ' + q.q + ' => ' + answers[q.id].t);
+      });
+
+      var payload = {
+        form_type: 'scorecard',
+        firstName: form.querySelector('#scName').value,
+        email: email.value,
+        website: form.querySelector('#scSite').value,
+        business_type: answers.industry ? answers.industry.t : '',
+        monthly_budget: answers.spend ? answers.spend.t : '',
+        current_challenges: 'Scorecard ' + total + '/100 (' + gradeName + ')',
+        message: lines.join('\n'),
+        page_url: window.location.href
+      };
+      if (pageLoadedAt !== null && window.performance && window.performance.now) {
+        payload.ttf_ms = Math.round(window.performance.now() - pageLoadedAt);
+      }
+
+      if (window.gtag) {
+        window.gtag('event', 'generate_lead', {
+          form_type: 'scorecard', page_location: window.location.href, value: 30
+        });
+      }
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      }).then(function () {
+        form.innerHTML = '<p style="margin:0;font-size:1rem;line-height:1.6">' +
+          '<strong>Got it.</strong> Your report is on its way and we’ll reach out to set up the audit. ' +
+          'If it’s urgent, call or text <a href="tel:+18132142292">(813) 214-2292</a>.</p>';
+      }, function () {
+        // Never claim success on a failed send.
+        btn.disabled = false;
+        btn.textContent = 'Try again';
+        var note = form.querySelector('.sc-send-error');
+        if (note && note.parentNode) note.parentNode.removeChild(note);
+        var p = document.createElement('p');
+        p.className = 'sc-fineprint sc-send-error';
+        p.setAttribute('role', 'alert');
+        p.style.color = '#FCA5A5';
+        p.innerHTML = 'That didn’t send — check your connection, or call/text ' +
+                      '<a href="tel:+18132142292">(813) 214-2292</a>. Your score above is unaffected.';
+        form.appendChild(p);
+      });
+    });
+  }
+
+  renderQuestion();
+})();
+</script>
+</body>
+</html>

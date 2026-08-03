@@ -1,4 +1,72 @@
+# Stampede USA — https://www.stampedeusa.com
+# Digital marketing agency serving Tampa Bay, Florida.
+
 User-agent: *
 Allow: /
+
+# ── AI ASSISTANTS & AGENTS ──────────────────────────────────────
+# Explicitly allowed. When someone asks an assistant for a marketing
+# agency in Tampa, we want to be quotable — so these are named rather
+# than left to the wildcard, which several crawlers treat as ambiguous
+# for training and retrieval specifically.
+
+# Answer engines / retrieval — these cite sources in responses
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Training crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# Plain-language summary written for language models:
+# https://www.stampedeusa.com/llms.txt
 
 Sitemap: https://www.stampedeusa.com/sitemap.xml
