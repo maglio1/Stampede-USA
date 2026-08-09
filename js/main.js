@@ -62,9 +62,100 @@
     form._stmpOpenedAt = PERF.now();
   }
 
+  /* ──────────────────────────────────────────────────────────
+     ATTRIBUTION: where this lead actually came from
+
+     The Apps Script receiver has ALWAYS had columns for this
+     (utm_source/medium/campaign/content/term in sheet columns R
+     through V, plus referrer and first_page) and the site has never
+     sent a single one of them. The backend was not the gap. This is.
+
+     So the names below are not invented: they are the exact keys the
+     receiver already picks. Adding a differently-named field here
+     would land nowhere, because that script builds a FIXED row array
+     and silently drops anything it was not written to expect.
+
+     Captured at the one point every form already goes through, so a
+     new form cannot forget to report it.
+
+     Persisted for the tab, because attribution has to survive the
+     visitor wandering. Somebody who lands on /letstalk/?utm_campaign=
+     touch-1, reads the FAQ, then comes back and books is still an
+     email lead. Reading the parameters off the submitting page would
+     lose that, which is the common way this gets built wrong.
+
+     sessionStorage, deliberately, NOT localStorage: it dies with the
+     tab. The same person arriving from Google next week is a Google
+     lead. An attribution that outlives its campaign is worse than no
+     attribution, because it is confidently wrong.
+
+     Parameters on the CURRENT page always win over the stored set, so
+     a second campaign gets credited when a tab is reused. They are
+     taken as a GROUP rather than field by field, so a new campaign
+     can never inherit half of the previous one's tags.
+  ────────────────────────────────────────────────────────── */
+  var ATTRIB_KEY = 'stmp_attrib';
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+  // Bound the length and strip anything that is not a plain token, so a
+  // hand-edited URL cannot write junk or a formula into the lead sheet.
+  function cleanTag(v) {
+    return String(v || '').slice(0, 64).replace(/[^\w.-]/g, '');
+  }
+
+  function captureAttribution() {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { params = null; }
+
+    var fresh = {};
+    var sawAny = false;
+    if (params) {
+      for (var i = 0; i < UTM_KEYS.length; i++) {
+        var v = cleanTag(params.get(UTM_KEYS[i]));
+        if (v) { fresh[UTM_KEYS[i]] = v; sawAny = true; }
+      }
+      // ?src= is the short alias the outreach emails carry, so a link
+      // stays readable in a plain-text email. It means campaign.
+      var src = cleanTag(params.get('src'));
+      if (src && !fresh.utm_campaign) {
+        fresh.utm_campaign = src;
+        if (!fresh.utm_source) fresh.utm_source = 'email';
+        sawAny = true;
+      }
+    }
+
+    if (sawAny) {
+      fresh.first_page = location.pathname + location.search;
+      // Referrer is recorded as OBSERVED, and an empty one is left
+      // empty rather than filled with a guess.
+      if (document.referrer) fresh.referrer = document.referrer;
+      try { window.sessionStorage.setItem(ATTRIB_KEY, JSON.stringify(fresh)); } catch (e) { /* private mode */ }
+      return fresh;
+    }
+
+    // Private browsing throws on storage access rather than returning null.
+    try {
+      var stored = window.sessionStorage.getItem(ATTRIB_KEY);
+      if (stored) return JSON.parse(stored);
+    } catch (e) { /* fall through to referrer */ }
+
+    var out = {};
+    if (document.referrer) {
+      try {
+        if (new URL(document.referrer).hostname !== location.hostname) out.referrer = document.referrer;
+      } catch (e) { /* malformed referrer */ }
+    }
+    return out;
+  }
+
   function postLead(payload, form) {
     if (form && form._stmpOpenedAt) {
       payload.ttf_ms = Math.round(PERF.now() - form._stmpOpenedAt);
+    }
+    // Never overwrite a value a form set deliberately.
+    var attrib = captureAttribution();
+    for (var k in attrib) {
+      if (Object.prototype.hasOwnProperty.call(attrib, k) && !payload[k]) payload[k] = attrib[k];
     }
     return fetch(CONFIG.APPS_SCRIPT_URL, {
       method: 'POST',

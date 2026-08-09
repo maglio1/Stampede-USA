@@ -10,14 +10,14 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Stampede USA">
-  <meta property="og:title" content="Free Marketing Scorecard — No Signup">
+  <meta property="og:title" content="Free Marketing Scorecard, No Signup">
   <meta property="og:description" content="Twelve questions. Instant score. See where your leads are leaking and what to fix first.">
   <meta property="og:url" content="https://stampedeusa.com/scorecard.html">
   <meta property="og:image" content="https://stampedeusa.com/assets/images/og-image.jpg">
   <meta property="og:image:width" content="1024">
   <meta property="og:image:height" content="1024">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free Marketing Scorecard — No Signup">
+  <meta name="twitter:title" content="Free Marketing Scorecard, No Signup">
   <meta name="twitter:description" content="Twelve questions. Instant score. No email required.">
   <meta name="twitter:image" content="https://stampedeusa.com/assets/images/og-image.jpg">
   <script type="application/ld+json">
@@ -66,7 +66,7 @@
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Any (web browser)",
         "browserRequirements": "Requires JavaScript",
-        "description": "A free 12-question self-assessment that scores a small business across four areas — getting found, converting visitors, responding to leads, and measuring results — then returns a prioritized report of what to fix first.",
+        "description": "A free 12-question self-assessment that scores a small business across four areas: getting found, converting visitors, responding to leads, and measuring results, then returns a prioritized report of what to fix first.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -101,12 +101,14 @@
     /* ── SCORECARD (page-scoped; kept inline to avoid a blocking request) ── */
     .sc-wrap{max-width:860px;margin:0 auto}
     .sc-progress-rail{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:0 0 8px}
-    .sc-progress-fill{height:100%;width:0;background:var(--stmp-red,#E63946);transition:width .35s cubic-bezier(.4,0,.2,1)}
+    .sc-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--cyan));
+      transition:width .35s cubic-bezier(.4,0,.2,1)}
     .sc-progress-label{font-size:.82rem;opacity:.65;margin:0 0 26px;letter-spacing:.04em}
 
     .sc-q{animation:scIn .35s ease both}
     @keyframes scIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .sc-q-kicker{font-family:Oswald,sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+    .sc-q-kicker{font-family:Oswald,sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--cyan);margin-bottom:10px}
     .sc-q-title{font-family:Oswald,sans-serif;font-size:clamp(1.35rem,3.2vw,1.9rem);line-height:1.25;margin:0 0 6px}
     .sc-q-help{font-size:.95rem;opacity:.7;margin:0 0 22px}
 
@@ -114,18 +116,28 @@
     .sc-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border-radius:12px;
       border:1.5px solid rgba(255,255,255,.13);background:rgba(255,255,255,.03);color:inherit;font:inherit;font-size:1rem;
       cursor:pointer;transition:border-color .16s,background .16s,transform .16s}
-    .sc-opt:hover{border-color:var(--stmp-red,#E63946);background:rgba(230,57,70,.07);transform:translateX(3px)}
-    .sc-opt:focus-visible{outline:2px solid var(--stmp-red,#E63946);outline-offset:2px}
-    .sc-opt[aria-pressed="true"]{border-color:var(--stmp-red,#E63946);background:rgba(230,57,70,.12)}
+    /* Hover is gold and selection is cyan, matching the rest of the site:
+       gold is the hover/active swap everywhere, cyan is the accent. */
+    .sc-opt:hover{border-color:var(--gold);background:rgba(245,158,11,.07);transform:translateX(3px)}
+    .sc-opt:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+    .sc-opt[aria-pressed="true"]{border-color:var(--cyan);background:var(--cyan-subtle)}
+    .sc-opt[aria-pressed="true"] .sc-opt-key{background:var(--purple);opacity:1}
     .sc-opt-key{flex:0 0 26px;height:26px;border-radius:6px;display:grid;place-items:center;font-family:Oswald,sans-serif;
-      font-size:.8rem;background:rgba(255,255,255,.08);opacity:.75}
+      font-size:.8rem;background:rgba(255,255,255,.08);opacity:.75;transition:background .16s,opacity .16s}
 
-    .sc-back{background:none;border:none;color:inherit;opacity:.6;font:inherit;font-size:.9rem;cursor:pointer;padding:6px 0}
-    .sc-back:hover{opacity:1}
+    /* The "I'm not sure" option is deliberately quieter than the factual
+       answers. It is a legitimate answer, not the failure option, so it
+       is set apart without being made to look like a penalty. */
+    .sc-opt-unsure{border-style:dashed;opacity:.85}
+    .sc-opt-unsure .sc-opt-key{font-size:.72rem}
+
+    .sc-back{background:none;border:none;color:var(--cyan);font:inherit;font-size:.9rem;cursor:pointer;padding:6px 0}
+    .sc-back:hover{color:var(--gold)}
 
     /* ── REPORT ── */
     .sc-report{animation:scIn .45s ease both}
-    .sc-report-doc{border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)}
+    .sc-report-doc{border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02);
+      box-shadow:0 0 34px var(--cyan-glow)}
     .sc-doc-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
       padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
     .sc-doc-brand{display:flex;align-items:center;gap:10px;font-family:Oswald,sans-serif;letter-spacing:.06em;font-size:.95rem}
@@ -135,7 +147,7 @@
     .sc-dial{position:relative;flex:0 0 132px;width:132px;height:132px}
     .sc-dial svg{transform:rotate(-90deg)}
     .sc-dial-num{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1}
-    .sc-dial-num strong{display:block;font-family:Bebas Neue,sans-serif;font-size:2.9rem;letter-spacing:.02em}
+    .sc-dial-num strong{display:block;font-family:Bebas Neue,sans-serif;font-size:2.9rem;letter-spacing:.02em;color:var(--cyan)}
     .sc-dial-num span{font-size:.7rem;opacity:.6;letter-spacing:.1em}
     .sc-verdict{flex:1;min-width:240px}
     .sc-verdict h3{font-family:Oswald,sans-serif;font-size:1.5rem;margin:0 0 8px}
@@ -144,6 +156,7 @@
     .sc-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;padding:26px 24px;
       border-bottom:1px solid rgba(255,255,255,.1)}
     .sc-pillar-name{display:flex;justify-content:space-between;font-family:Oswald,sans-serif;font-size:.9rem;margin-bottom:7px}
+    .sc-pillar-name span+span{color:var(--cyan)}
     .sc-pillar-rail{height:7px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
     .sc-pillar-fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
     .sc-pillar-note{font-size:.78rem;opacity:.6;margin-top:7px;line-height:1.45}
@@ -152,13 +165,28 @@
     .sc-leaks h4{font-family:Oswald,sans-serif;font-size:1.15rem;margin:0 0 4px}
     .sc-leaks-sub{font-size:.88rem;opacity:.65;margin:0 0 20px}
     .sc-leak{display:flex;gap:16px;padding:18px 0;border-top:1px solid rgba(255,255,255,.09)}
-    .sc-leak-rank{flex:0 0 32px;height:32px;border-radius:8px;display:grid;place-items:center;background:rgba(230,57,70,.15);
-      color:var(--stmp-red,#E63946);font-family:Bebas Neue,sans-serif;font-size:1.2rem}
+    /* Purple is a FILL and never a text colour on this site: #6B3FA0 on
+       black is 2.3:1, so the numeral has to sit ON the purple, not in it. */
+    .sc-leak-rank{flex:0 0 32px;height:32px;border-radius:8px;display:grid;place-items:center;background:var(--purple);
+      color:var(--white);font-family:Bebas Neue,sans-serif;font-size:1.2rem}
     .sc-leak-body h5{font-family:Oswald,sans-serif;font-size:1.02rem;margin:0 0 6px}
     .sc-leak-body p{margin:0 0 8px;font-size:.93rem;opacity:.78;line-height:1.6}
-    .sc-bench{display:block;font-size:.83rem;opacity:.62;border-left:2px solid rgba(230,57,70,.5);padding-left:11px;line-height:1.55}
+    .sc-bench{display:block;font-size:.83rem;opacity:.62;border-left:2px solid var(--cyan);padding-left:11px;line-height:1.55}
 
-    .sc-cta-card{margin-top:26px;padding:26px 24px;border:1px solid rgba(230,57,70,.35);border-radius:14px;background:rgba(230,57,70,.06)}
+    /* ── WHAT WE COULD NOT SCORE ──
+       Its own block, deliberately NOT part of the leak ranking. An
+       unanswered question is not a measured weakness and must never be
+       ranked as one. */
+    .sc-unknowns{padding:0 24px 26px}
+    .sc-unknowns-card{border:1px dashed rgba(0,212,255,.4);border-radius:12px;padding:18px 20px;background:var(--cyan-subtle)}
+    .sc-unknowns-card h4{font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 6px;color:var(--cyan)}
+    .sc-unknowns-card p{margin:0 0 10px;font-size:.92rem;opacity:.82;line-height:1.6}
+    .sc-unknowns-card ul{margin:0;padding-left:18px;font-size:.92rem;line-height:1.7;opacity:.85}
+
+    .sc-cta-card{position:relative;margin-top:26px;padding:26px 24px;border:1px solid var(--gray-700);border-radius:14px;
+      background:var(--gray-900);overflow:hidden;box-shadow:0 0 30px var(--purple-glow)}
+    .sc-cta-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--cyan),var(--purple),var(--cyan))}
     .sc-cta-card h4{font-family:Oswald,sans-serif;font-size:1.2rem;margin:0 0 8px}
     .sc-cta-card > p{margin:0 0 18px;opacity:.8;font-size:.95rem;line-height:1.6}
     .sc-mini-form{display:grid;gap:12px}
@@ -166,9 +194,23 @@
     @media(max-width:640px){.sc-mini-row{grid-template-columns:1fr}.sc-hero-score{gap:20px}}
     .sc-mini-form input{width:100%;padding:12px 14px;border-radius:9px;border:1.5px solid rgba(255,255,255,.16);
       background:rgba(0,0,0,.25);color:inherit;font:inherit}
-    .sc-mini-form input:focus{outline:none;border-color:var(--stmp-red,#E63946)}
+    .sc-mini-form input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-glow)}
     .sc-fineprint{font-size:.8rem;opacity:.55;margin:12px 0 0}
     .sc-restart{margin-top:20px;text-align:center}
+    .sc-restart button{color:var(--cyan)}
+    .sc-restart button:hover{color:var(--gold)}
+
+    /* ── STATIC HALF ──
+       The crawlable prose under the quiz. It was pure white-on-black
+       while every other content page carries the accent: faq.html renders
+       the same kind of content with cyan headings, and index.html never
+       uses .stmp-section-title without a cyan .stmp-section-tag above it.
+       This page was the only one that opted out. */
+    .sc-static-head{font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px;color:var(--white)}
+    .sc-static-head .n{color:var(--cyan);margin-right:6px}
+    .sc-faq-q{font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px;color:var(--cyan)}
+    .sc-static-card{border-left:2px solid var(--cyan-subtle);padding-left:14px;transition:border-color .2s}
+    .sc-static-card:hover{border-left-color:var(--cyan)}
 
     @media print{
       #stmp-nav,#stmp-mobile-bar,#stmp-footer,.sc-cta-card,.sc-restart,.page-hero-orb{display:none!important}
@@ -249,43 +291,45 @@
         <!-- REPORT -->
         <div id="scReport" class="sc-report" hidden></div>
 
-        <!-- STATIC CONTENT — crawlable, and the real answer for anyone
+        <!-- STATIC CONTENT: crawlable, and the real answer for anyone
              (human or AI agent) who never runs the interactive version. -->
         <div id="scStatic" style="margin-top:56px">
+          <div class="stmp-section-tag">How it works</div>
           <h2 class="stmp-section-title" style="font-size:clamp(1.4rem,3vw,2rem)">What this scorecard measures</h2>
           <p style="opacity:.78;line-height:1.7;max-width:70ch">Most small-business marketing problems are not creative problems. They are plumbing problems. The scorecard checks the four places money actually leaks, in the order that matters:</p>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-top:26px">
-            <div>
-              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">1. Get Found</h3>
+            <div class="sc-static-card">
+              <h3 class="sc-static-head"><span class="n">1.</span>Get Found</h3>
               <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Your Google Business Profile, your review count, and whether anyone is actually landing on your site. For a local service business this is usually the largest single gap, and the cheapest to close.</p>
             </div>
-            <div>
-              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">2. Convert</h3>
+            <div class="sc-static-card">
+              <h3 class="sc-static-head"><span class="n">2.</span>Convert</h3>
               <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Whether a stranger landing on your site understands what to do in about five seconds, and whether the page loads fast enough on a phone that they stick around to find out.</p>
             </div>
-            <div>
-              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">3. Respond</h3>
+            <div class="sc-static-card">
+              <h3 class="sc-static-head"><span class="n">3.</span>Respond</h3>
               <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">How fast you reply to a new lead, and what happens when someone doesn't answer the first time. This is the most commonly ignored and most immediately profitable area on the list.</p>
             </div>
-            <div>
-              <h3 style="font-family:Oswald,sans-serif;font-size:1.05rem;margin:0 0 7px">4. Measure</h3>
+            <div class="sc-static-card">
+              <h3 class="sc-static-head"><span class="n">4.</span>Measure</h3>
               <p style="font-size:.93rem;opacity:.72;line-height:1.6;margin:0">Whether you can tell which channel produced which customer, and what a lead costs you. Without this, every other decision is a guess with your money attached.</p>
             </div>
           </div>
 
-          <h2 class="stmp-section-title" style="font-size:clamp(1.4rem,3vw,2rem);margin-top:48px">Common questions</h2>
+          <div class="stmp-section-tag" style="margin-top:48px">Questions</div>
+          <h2 class="stmp-section-title" style="font-size:clamp(1.4rem,3vw,2rem)">Common questions</h2>
           <div style="max-width:72ch">
-            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">Do I have to give you my email?</h3>
+            <h3 class="sc-faq-q">Do I have to give you my email?</h3>
             <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">No. The full score and the full report appear on screen when you finish. There is an option at the bottom to have it sent to you along with a walkthrough, but nothing is hidden behind it.</p>
 
-            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">How accurate is a self-assessment?</h3>
+            <h3 class="sc-faq-q">How accurate is a self-assessment?</h3>
             <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">It is as accurate as your answers, which is the honest limit of any tool that does not have access to your analytics. It is very good at finding which of the four areas is your weakest, which is the decision that matters most. Pulling real numbers off your site and ad accounts is what the free audit does.</p>
 
-            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">What do the benchmarks come from?</h3>
+            <h3 class="sc-faq-q">What do the benchmarks come from?</h3>
             <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">They are widely published industry figures for small and local businesses, included so a number has some context instead of floating on its own. They describe the general pattern, not a promise about your business specifically.</p>
 
-            <h3 style="font-family:Oswald,sans-serif;font-size:1.02rem;margin:22px 0 6px">Who is this for?</h3>
+            <h3 class="sc-faq-q">Who is this for?</h3>
             <p style="font-size:.94rem;opacity:.75;line-height:1.65;margin:0">Owner-operated and small-team businesses, mostly in the Tampa Bay area: home services, contractors, professional services, health and wellness, retail, restaurants, auto, and real estate. It assumes you do not have a marketing department, because most of our clients don't.</p>
           </div>
         </div>
@@ -388,6 +432,41 @@
     ? window.performance.now() : null;
 
   // Pillar weights total 100: Get Found 30, Convert 20, Respond 20, Measure 30.
+  //
+  // ── HOW AN UNKNOWN IS SCORED, AND WHY IT IS NOT ZERO ──
+  //
+  // Options marked u:true mean "I don't know", and they score 25% of that
+  // question's weight. They used to score 0, which is byte-identical to the
+  // worst possible real answer, and that was wrong twice over.
+  //
+  // It was wrong as measurement. "I don't know if my site is fast" and "my
+  // site is noticeably slow" are different facts. One is unmeasured, the
+  // other is a measured deficiency, and scoring them the same means neither
+  // the report nor the lead sheet can tell them apart.
+  //
+  // It was wrong commercially, which is the part that cost money. An owner
+  // who answered "I don't know" six times scored about 20 and was told
+  // "Almost nothing is set up to capture or measure demand right now." He
+  // knows that is false, because he has customers. He closes the tab, and
+  // he was a good prospect: a real business with no instruments is exactly
+  // who we sell to.
+  //
+  // 25% is not a compromise, it is a position. Not knowing is not free: if
+  // you don't know your Business Profile status you are almost certainly
+  // not managing it, so full credit would inflate the score and make the
+  // free audit look like a bait and switch when the real numbers land.
+  // Checked question by question, 25% lands the unknown ABOVE the
+  // confirmed-worst answer and BELOW every answer describing a managed
+  // state. It also keeps one number out of 100, so the dial and all five
+  // grade bands work unchanged.
+  //
+  // Shrinking the denominator instead ("47 of a possible 78") is the more
+  // intellectually honest version and it fails on arithmetic: answer
+  // everything unknown and you score 0 of 0. Rejected.
+  //
+  // Unknowns are ALSO excluded from the leak ranking in buildReport, and
+  // that matters more than the points. A question nobody answered is not a
+  // measured weakness and must never be ranked as one.
   var QUESTIONS = [
     { id:'industry', pillar:null, kicker:'First, some context',
       q:'What kind of business is this?',
@@ -411,7 +490,8 @@
         {t:'Claimed, and I post or update it most months', v:12},
         {t:'Claimed, but I rarely touch it', v:7},
         {t:'It exists but I never claimed it', v:2},
-        {t:'I don’t have one, or I’m not sure', v:0}
+        {t:'I don’t have one', v:0},
+        {t:'I’m not sure', v:3, u:true}
       ]},
 
     { id:'reviews', pillar:'found', max:10, kicker:'Get Found',
@@ -422,7 +502,8 @@
         {t:'20 to 49', v:7},
         {t:'5 to 19', v:4},
         {t:'Under 5', v:1},
-        {t:'None yet', v:0}
+        {t:'None yet', v:0},
+        {t:'I’m not sure', v:3, u:true}
       ]},
 
     { id:'traffic', pillar:'found', max:8, kicker:'Get Found',
@@ -433,17 +514,17 @@
         {t:'500 to 2,000', v:6},
         {t:'100 to 500', v:4},
         {t:'Under 100', v:1},
-        {t:'No idea', v:0}
+        {t:'No idea', v:2, u:true}
       ]},
 
     { id:'clarity', pillar:'convert', max:12, kicker:'Convert',
       q:'If a stranger lands on your homepage, is the next step obvious within five seconds?',
       help:'One clear thing to do, visible without scrolling.',
       opts:[
-        {t:'Yes — one clear action, right at the top', v:12},
-        {t:'Sort of — there’s a contact form somewhere', v:6},
+        {t:'Yes. One clear action, right at the top', v:12},
+        {t:'Sort of. There’s a contact form somewhere', v:6},
         {t:'Not really, it’s mostly information', v:2},
-        {t:'I honestly don’t know', v:0}
+        {t:'I honestly don’t know', v:3, u:true}
       ]},
 
     { id:'speed', pillar:'convert', max:8, kicker:'Convert',
@@ -453,18 +534,19 @@
         {t:'Almost instantly', v:8},
         {t:'A couple of seconds', v:5},
         {t:'Noticeably slow', v:1},
-        {t:'Never checked', v:0}
+        {t:'Never checked', v:2, u:true}
       ]},
 
     { id:'response', pillar:'respond', max:12, kicker:'Respond',
       q:'When a new lead comes in, how fast do you usually reply?',
-      help:'Be honest — the realistic average, not your best day.',
+      help:'Be honest. The realistic average, not your best day.',
       opts:[
         {t:'Within 5 minutes', v:12},
         {t:'Within an hour', v:8},
         {t:'Same day', v:4},
         {t:'Next day or later', v:1},
-        {t:'It depends — there’s no system', v:0}
+        {t:'It depends. There’s no system', v:0},
+        {t:'I’m not sure what the average is', v:3, u:true}
       ]},
 
     { id:'followup', pillar:'respond', max:8, kicker:'Respond',
@@ -474,17 +556,19 @@
         {t:'An automated sequence keeps following up', v:8},
         {t:'I follow up manually a few times', v:5},
         {t:'One try, then they go cold', v:2},
-        {t:'Nothing happens', v:0}
+        {t:'Nothing happens', v:0},
+        {t:'I’m not sure', v:2, u:true}
       ]},
 
     { id:'tracking', pillar:'measure', max:12, kicker:'Measure',
       q:'Can you tell which calls and form fills came from where?',
-      help:'Conversion tracking — knowing that this customer came from that ad or search.',
+      help:'Conversion tracking. Knowing that this customer came from that ad or that search.',
       opts:[
-        {t:'Yes — calls and forms both tracked to source', v:12},
+        {t:'Yes. Calls and forms both tracked to source', v:12},
         {t:'Forms only', v:7},
         {t:'Analytics is installed but nothing is configured', v:3},
-        {t:'No, or not sure', v:0}
+        {t:'No, nothing is tracked', v:0},
+        {t:'I’m not sure', v:3, u:true}
       ]},
 
     { id:'source', pillar:'measure', max:8, kicker:'Measure',
@@ -495,7 +579,7 @@
         {t:'Paid ads', v:7},
         {t:'Social media', v:5},
         {t:'Referrals and word of mouth', v:4},
-        {t:'Honestly, I’m not sure', v:0}
+        {t:'Honestly, I’m not sure', v:2, u:true}
       ]},
 
     { id:'cpl', pillar:'measure', max:10, kicker:'Measure',
@@ -504,6 +588,13 @@
       opts:[
         {t:'Yes, broken out by channel', v:10},
         {t:'A rough overall number', v:5},
+        // NOT flagged u:true, deliberately. The question asks "do you
+        // know", so "No" is a complete and definite answer about a real
+        // state: this business does not track cost per lead. That is a
+        // measured deficiency, not an unmeasured one, and marking it
+        // unknown would mean "I'm not sure whether I know", which nobody
+        // means. It is also already the plain-language opt-out this
+        // question needs, so a second one would just be noise.
         {t:'No', v:0}
       ]},
 
@@ -515,7 +606,8 @@
         {t:'$2,000 to $5,000', v:0},
         {t:'$500 to $2,000', v:0},
         {t:'Under $500', v:0},
-        {t:'Nothing right now', v:0}
+        {t:'Nothing right now', v:0},
+        {t:'I’d have to add it up', v:0}
       ]}
   ];
 
@@ -531,7 +623,7 @@
   var LEAKS = {
     response: {
       title:'Your response time is costing you the most',
-      body:'Speed beats polish. A lead that gets a reply in minutes is a different lead than one that waits until tomorrow — same person, same ad, completely different outcome. This is usually the fastest money on the table because it costs nothing to fix.',
+      body:'Speed beats polish. A lead that gets a reply in minutes is a different lead than one that waits until tomorrow. Same person, same ad, completely different outcome. This is usually the fastest money on the table because it costs nothing to fix.',
       bench:'Industry benchmark: replying within 5 minutes rather than 30 makes a lead roughly 20x more likely to qualify, and about half of buyers go with whoever answers first.'
     },
     followup: {
@@ -542,7 +634,7 @@
     gbp: {
       title:'Your Google Business Profile is underused',
       body:'For a local service business this is usually the single largest gap and the cheapest to close. The map pack sits above the regular results, and an unclaimed or dormant profile simply doesn’t compete for it.',
-      bench:'Industry benchmark: the local map results capture a large share of clicks on "near me" and service-plus-city searches — traffic that never reaches page one of the blue links.'
+      bench:'Industry benchmark: the local map results capture a large share of clicks on "near me" and service-plus-city searches, traffic that never reaches page one of the blue links.'
     },
     reviews: {
       title:'You don’t have enough reviews to win the click',
@@ -552,7 +644,7 @@
     tracking: {
       title:'You can’t tell what’s working',
       body:'Without conversion tracking, every budget decision is a guess. You cannot cut the channel that’s wasting money because you cannot identify it, and you cannot scale the one that’s working for the same reason. This is the fix that makes every other fix measurable.',
-      bench:'Practical benchmark: for most small local budgets, a minority of channels produce the majority of real customers — the problem is that untracked accounts can’t tell which minority.'
+      bench:'Practical benchmark: for most small local budgets, a minority of channels produce the majority of real customers. The problem is that untracked accounts can’t tell which minority.'
     },
     clarity: {
       title:'Your homepage doesn’t point anywhere',
@@ -561,7 +653,7 @@
     },
     speed: {
       title:'Your site is too slow on a phone',
-      body:'Most local searches happen on a phone, frequently on cell data. Every extra second costs you a share of the people who were ready to call. Speed is not a vanity metric here — it is the front door.',
+      body:'Most local searches happen on a phone, frequently on cell data. Every extra second costs you a share of the people who were ready to call. Speed is not a vanity metric here, it is the front door.',
       bench:'Industry benchmark: over half of mobile visits are abandoned when a page takes more than about three seconds to load.'
     },
     cpl: {
@@ -616,7 +708,8 @@
 
     q.opts.forEach(function (o, i) {
       var sel = answers[q.id] && answers[q.id].t === o.t;
-      html += '<button type="button" class="sc-opt" data-i="' + i + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
+      html += '<button type="button" class="sc-opt' + (o.u ? ' sc-opt-unsure' : '') +
+                '" data-i="' + i + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
                 '<span class="sc-opt-key" aria-hidden="true">' + String.fromCharCode(65 + i) + '</span>' +
                 '<span>' + esc(o.t) + '</span>' +
               '</button>';
@@ -628,7 +721,7 @@
     Array.prototype.forEach.call(mount.querySelectorAll('.sc-opt'), function (btn) {
       btn.addEventListener('click', function () {
         var o = q.opts[Number(btn.getAttribute('data-i'))];
-        answers[q.id] = { t: o.t, v: o.v, max: q.max || 0, pillar: q.pillar };
+        answers[q.id] = { t: o.t, v: o.v, max: q.max || 0, pillar: q.pillar, u: !!o.u, q: q.q };
         if (idx < QUESTIONS.length - 1) { idx++; renderQuestion(); }
         else { buildReport(); }
       });
@@ -652,9 +745,20 @@
     return out;
   }
 
-  function gradeFor(score) {
+  // unknownPoints is the WEIGHT of the questions answered "I don't know",
+  // not their score. It overrides the band, and it has to, because fixing
+  // the point value alone does not fix the insult: answer everything
+  // unknown under the new scoring and you still total 26, which still
+  // lands in "Starting from scratch". The number moved and the accusation
+  // did not. A man with customers reads that, knows it is false, and
+  // leaves. So when most of the board is unmeasured we stop grading the
+  // business and name the actual finding, which is that nobody is
+  // measuring it. That is a different problem and a better conversation.
+  function gradeFor(score, unknownPoints) {
+    if (unknownPoints >= 40) return { g:'Flying blind', c:'#00D4FF', blind:true,
+      say:'There is not enough measured here to grade the business, and that is the finding. You are running on instinct, which is not the same as running badly: plenty of good businesses do it right up until the day the instinct stops working. The first job is instruments, not repairs. Once you can see the numbers, most of this answers itself.' };
     if (score >= 85) return { g:'Strong', c:'#22C55E',
-      say:'You are running ahead of most businesses your size. The remaining gains are refinements, not rescues — the kind of thing that turns a good month into a repeatable one.' };
+      say:'You are running ahead of most businesses your size. The remaining gains are refinements, not rescues. The kind of thing that turns a good month into a repeatable one.' };
     if (score >= 70) return { g:'Solid', c:'#84CC16',
       say:'The foundation is there and working. One or two specific gaps are holding back results that the rest of your setup has already earned.' };
     if (score >= 50) return { g:'Leaking', c:'#F59E0B',
@@ -668,18 +772,34 @@
   function buildReport() {
     var ps = pillarScores();
     var total = ps.found + ps.convert + ps.respond + ps.measure;
-    var grade = gradeFor(total);
 
-    // Rank leaks by how much of that question's weight was missed.
-    var gaps = [];
+    // Rank leaks by how much of that question's weight was missed, and
+    // count the unmeasured questions separately.
+    //
+    // AN UNKNOWN IS NEVER RANKED AS A LEAK. Under the old code it was, and
+    // because a 0 produces the maximum possible miss, answering "I don't
+    // know" three times MATHEMATICALLY GUARANTEED those three topped the
+    // list. The report said "ranked by how much each one is costing you";
+    // it was actually ranked by what the reader was unsure about. We have
+    // not measured those, so we cannot price them, and saying otherwise
+    // would be inventing a number.
+    var gaps = [], unknowns = [], unknownPoints = 0;
     Object.keys(answers).forEach(function (id) {
       var a = answers[id];
-      if (!a.pillar || !LEAKS[id]) return;
+      if (!a.pillar) return;
+      if (a.u) {
+        unknownPoints += (a.max || 0);
+        if (LEAKS[id]) unknowns.push({ id: id, q: a.q });
+        return;
+      }
+      if (!LEAKS[id]) return;
       var missed = (a.max || 0) - a.v;
       if (missed > 0) gaps.push({ id: id, missed: missed });
     });
     gaps.sort(function (x, y) { return y.missed - x.missed; });
     var top = gaps.slice(0, 3);
+
+    var grade = gradeFor(total, unknownPoints);
 
     var now = new Date();
     var dateStr = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
@@ -713,12 +833,25 @@
               '</div>' +
             '</div>';
 
+    // "Biggest opportunity" is COMPARATIVE and only one pillar can hold it.
+    // It used to be an absolute threshold, so every pillar under 45% was
+    // independently told it was the biggest, and a weak board printed the
+    // phrase four times. A label that fires on everything ranks nothing.
+    var weakest = null, weakestPct = 101;
+    Object.keys(PILLARS).forEach(function (k) {
+      var pv = Math.round((ps[k] / PILLARS[k].max) * 100);
+      if (pv < weakestPct) { weakestPct = pv; weakest = k; }
+    });
+
     html += '<div class="sc-pillars">';
     Object.keys(PILLARS).forEach(function (k) {
       var p = PILLARS[k];
       var pctv = Math.round((ps[k] / p.max) * 100);
       var col = pctv >= 75 ? '#22C55E' : pctv >= 45 ? '#F59E0B' : '#EF4444';
-      var note = pctv >= 75 ? 'Working well.' : pctv >= 45 ? 'Partly in place.' : 'Biggest opportunity.';
+      var note = k === weakest && pctv < 75 ? 'Start here.'
+               : pctv >= 75 ? 'Working well.'
+               : pctv >= 45 ? 'Partly in place.'
+               : 'Needs work.';
       html += '<div>' +
                 '<div class="sc-pillar-name"><span>' + p.label + '</span><span>' + ps[k] + '/' + p.max + '</span></div>' +
                 '<div class="sc-pillar-rail"><div class="sc-pillar-fill" style="width:' + pctv + '%;background:' + col + '"></div></div>' +
@@ -731,8 +864,10 @@
               '<h4>Where the money is going</h4>' +
               '<p class="sc-leaks-sub">Ranked by how much each one is costing you, based on your answers. Work top to bottom.</p>';
 
-    if (!top.length) {
-      html += '<p style="opacity:.8;font-size:.95rem;line-height:1.6">Nothing major is broken. At this point the work is optimization rather than repair — tightening what already runs.</p>';
+    if (!top.length && unknowns.length) {
+      html += '<p style="opacity:.8;font-size:.95rem;line-height:1.6">Nothing you measured came back broken. What is left is the part nobody has measured yet, below.</p>';
+    } else if (!top.length) {
+      html += '<p style="opacity:.8;font-size:.95rem;line-height:1.6">Nothing major is broken. At this point the work is optimization rather than repair, tightening what already runs.</p>';
     } else {
       top.forEach(function (g, i) {
         var L = LEAKS[g.id];
@@ -746,12 +881,29 @@
                 '</div>';
       });
     }
-    html += '</div></div>';
+    html += '</div>';
 
-    // Capture — offered, never required. The report above is already complete.
+    // The unmeasured questions, named and kept OUT of the ranking above.
+    // This is the honest half of the unknown fix: the points changed, and
+    // so did what we are willing to say. We did not measure these, so we
+    // do not price them, we just say plainly that they are missing.
+    if (unknowns.length) {
+      html += '<div class="sc-unknowns"><div class="sc-unknowns-card">' +
+                '<h4>What I could not score</h4>' +
+                '<p>You marked ' + unknowns.length + ' of these ' + (unknowns.length === 1 ? 'question' : 'questions') +
+                  ' as not sure, so ' + (unknowns.length === 1 ? 'it is' : 'they are') + ' left out of the ranking above. ' +
+                  'That is not a knock. It is the most common thing I find, and it is usually the cheapest to fix, ' +
+                  'because you cannot manage a number you have never seen.</p><ul>';
+      unknowns.forEach(function (u) { html += '<li>' + esc(u.q) + '</li>'; });
+      html += '</ul></div></div>';
+    }
+
+    html += '</div>';
+
+    // Capture, offered and never required. The report above is already complete.
     html += '<div class="sc-cta-card">' +
-              '<h4>Want this pulled from your real numbers?</h4>' +
-              '<p>The report above is built from what you told us. The free audit is built from what your site, your Business Profile, and your ad accounts actually say — and it comes with 30 minutes to walk through it. No pitch deck.</p>' +
+              '<h4>Want the version with your real numbers in it?</h4>' +
+              '<p>Your score up there is built on how it looks from where you are standing. The audit is built on what the machines say: what your site actually loads at on a phone, what your Business Profile is actually showing people, what your ad account actually spent last month. It is usually a different picture. I pull it myself, then we take thirty minutes on the phone and go through it. Nothing gets held back either way; the score above is yours whether you fill this in or not.</p>' +
               '<form class="sc-mini-form" id="scLeadForm" novalidate>' +
                 '<input type="text" name="contact_ref" tabindex="-1" autocomplete="off" aria-hidden="true" class="stmp-alt-field">' +
                 '<div class="sc-mini-row">' +
@@ -762,8 +914,8 @@
                 '</div>' +
                 '<div><label class="sr-only" for="scSite">Website</label>' +
                 '<input type="url" id="scSite" name="website" placeholder="https://yourbusiness.com" autocomplete="url"></div>' +
-                '<button type="submit" class="stmp-btn stmp-btn-primary" id="scLeadBtn">Send my report &amp; book the audit &rarr;</button>' +
-                '<p class="sc-fineprint">Your score is already yours — this just sends a copy and gets the real audit started. No spam, unsubscribe anytime.</p>' +
+                '<button type="submit" class="stmp-btn stmp-btn-primary" id="scLeadBtn">Start the audit &rarr;</button>' +
+                '<p class="sc-fineprint">This sends you a copy and gets the audit started. No spam, and you can unsubscribe anytime.</p>' +
               '</form>' +
             '</div>';
 
@@ -855,7 +1007,7 @@
         p.className = 'sc-fineprint sc-send-error';
         p.setAttribute('role', 'alert');
         p.style.color = '#FCA5A5';
-        p.innerHTML = 'That didn’t send — check your connection, or call/text ' +
+        p.innerHTML = 'That didn’t send. Check your connection, or call or text ' +
                       '<a href="tel:+18132142292">(813) 214-2292</a>. Your score above is unaffected.';
         form.appendChild(p);
       });
