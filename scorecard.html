@@ -982,6 +982,17 @@
         payload.ttf_ms = Math.round(window.performance.now() - pageLoadedAt);
       }
 
+      // Where this visitor came from, under the exact key names the Apps
+      // Script receiver already reads into sheet columns R through V. This
+      // quiz posts its own lead rather than going through main.js, so it has
+      // to ask for the attribution explicitly or report none at all.
+      if (typeof window.stampedeAttribution === 'function') {
+        var attrib = window.stampedeAttribution();
+        for (var ak in attrib) {
+          if (Object.prototype.hasOwnProperty.call(attrib, ak) && !payload[ak]) payload[ak] = attrib[ak];
+        }
+      }
+
       if (window.gtag) {
         window.gtag('event', 'generate_lead', {
           form_type: 'scorecard', page_location: window.location.href, value: 30

@@ -148,6 +148,12 @@
     return out;
   }
 
+  // Exposed because scorecard.html carries its own self-contained quiz and
+  // posts its own lead, so it never reaches postLead below. Without this it
+  // would be the one form on the site that reports no source, which is
+  // precisely the form a printed QR code is most likely to send people to.
+  window.stampedeAttribution = captureAttribution;
+
   function postLead(payload, form) {
     if (form && form._stmpOpenedAt) {
       payload.ttf_ms = Math.round(PERF.now() - form._stmpOpenedAt);
