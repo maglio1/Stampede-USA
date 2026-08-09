@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       /card : THE BUSINESS CARD QR TARGET
+
+       This page exists so the QR code printed on a physical card is
+       never bound to a destination. The card says stampedeusa.com/card
+       and nothing else, so the place it sends people is a line in THIS
+       file rather than a pattern of squares in someone's wallet.
+
+       WHY IT IS BUILT THIS WAY, AND WHY IT WILL NOT STOP WORKING
+
+       1. NO THIRD PARTY. No bit.ly, no QR service, no redirect vendor.
+          Those are the usual reason a printed code dies: the company
+          folds, the free tier ends, or the link expires, and every card
+          ever handed out goes dead at once. This is a static file on a
+          domain Matt owns, served by GitHub Pages. Its only dependency
+          is the domain itself.
+
+       2. THREE INDEPENDENT FALLBACKS, in order of speed:
+            a. meta refresh, which works with JavaScript disabled
+            b. a JS replace() for phones that honour it faster
+            c. a real, visible, tappable link
+          If all three somehow fail the visitor still sees a working
+          link and a phone number, so the worst case is one extra tap
+          rather than a dead end.
+
+       3. NO QUERY STRING ON THE PRINTED URL. The tracking is added
+          here, so the encoded text stays 28 characters. Fewer modules
+          means larger squares at the same physical size, which is what
+          keeps it scanning off a card that has been in a wallet for a
+          year.
+
+       4. replace() NOT href =, so the card page never lands in the
+          visitor's back-button history. Tapping back from the scorecard
+          returns them to wherever they were, not into a redirect loop.
+
+       TO CHANGE WHERE THE CARDS POINT: edit DESTINATION below. Every
+       card already in circulation follows it. That is the whole point.
+  ═══════════════════════════════════════════════════════════ -->
+
+  <title>Stampede USA</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://stampedeusa.com/scorecard.html">
+
+  <meta http-equiv="refresh" content="0; url=/scorecard.html?utm_source=card&amp;utm_medium=print&amp;utm_campaign=business-card">
+
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+  <style>
+    :root{
+      --purple:#6B3FA0; --cyan:#00D4FF; --black:#09090B;
+      --white:#FAFAFA; --gray:#A1A1AA;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--black); color:var(--white);
+      font-family:'Source Sans 3',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; padding:28px; line-height:1.6;
+    }
+    .card{max-width:22rem}
+    .mark{
+      width:64px; height:auto; margin:0 auto 20px; display:block;
+      filter:drop-shadow(0 0 14px rgba(107,63,160,.6));
+    }
+    h1{
+      font-size:1.06rem; font-weight:600; margin:0 0 6px;
+      letter-spacing:.01em;
+    }
+    p{margin:0 0 22px; color:var(--gray); font-size:.94rem}
+    a.go{
+      display:inline-block; background:var(--purple); color:var(--white);
+      text-decoration:none; font-weight:600; padding:13px 26px;
+      border-radius:9px; box-shadow:0 0 22px rgba(245,158,11,.35);
+      transition:background .15s;
+    }
+    a.go:hover,a.go:focus{background:#F59E0B; color:var(--black)}
+    a.go:focus-visible{outline:3px solid var(--cyan); outline-offset:3px}
+    .tel{
+      display:block; margin-top:22px; color:var(--cyan);
+      text-decoration:none; font-size:.9rem;
+    }
+    .tel:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img class="mark" src="/assets/images/favicon.png" alt="Stampede USA" width="64" height="64">
+
+    <!-- Visible only if BOTH the meta refresh and the script below fail,
+         which in practice means a very old or heavily locked-down browser.
+         It is written to make sense on its own rather than to apologise. -->
+    <h1>Taking you to the scorecard</h1>
+    <p>Twelve questions, about sixty seconds, no signup. If nothing happens, tap below.</p>
+
+    <a class="go" href="/scorecard.html?utm_source=card&amp;utm_medium=print&amp;utm_campaign=business-card">
+      See what you&rsquo;re missing
+    </a>
+
+    <a class="tel" href="tel:+18132142292">Or call (813) 214-2292</a>
+  </div>
+
+  <script>
+    // Fastest path. replace() keeps this page out of the back stack, so
+    // "back" from the scorecard does not bounce the visitor through here
+    // again. Wrapped because a redirect failing must never blank the page:
+    // the markup above is already a working fallback.
+    (function () {
+      'use strict';
+      var DESTINATION = '/scorecard.html?utm_source=card&utm_medium=print&utm_campaign=business-card';
+      try { window.location.replace(DESTINATION); } catch (e) { /* markup above stands */ }
+    })();
+  </script>
+
+</body>
+</html>
